@@ -12,83 +12,121 @@ function App() {
     const [error, setError] = useState('');
 
     useEffect(() => {
-        const loadHealth = async () => {
+        const load = async () => {
             try {
-                const res = await fetch(`${import.meta.env.VITE_API_URL}/health`);
-                if (!res.ok) {
-                    throw new Error('Backend request failed');
-                }
+                const res = await fetch(
+                    `${import.meta.env.VITE_API_URL}/health`
+                );
 
-                const json: HealthResponse = await res.json();
+                if (!res.ok) throw new Error();
+
+                const json = await res.json();
                 setData(json);
-            } catch (e) {
-                setError('Не удалось подключиться к backend');
+            } catch {
+                setError('Backend недоступен');
             } finally {
                 setLoading(false);
             }
         };
 
-        loadHealth();
+        load();
     }, []);
 
     return (
-        <div
-            style={{
-                minHeight: '100vh',
-                background: '#0f172a',
-                color: '#fff',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                fontFamily: 'Arial, sans-serif',
-                padding: '24px',
-            }}
-        >
-            <div
-                style={{
-                    width: '100%',
-                    maxWidth: '700px',
-                    background: '#111827',
-                    borderRadius: '20px',
-                    padding: '32px',
-                    boxShadow: '0 20px 60px rgba(0,0,0,0.35)',
-                }}
-            >
-                <h1 style={{ marginTop: 0 }}>Hayfin Frontend</h1>
-                <p>Frontend запущен и пытается получить ответ от backend.</p>
+        <div style={styles.page}>
+            <div style={styles.card}>
+                <h1 style={styles.title}>Hayfin</h1>
+                <p style={styles.subtitle}>
+                    Fullstack система уже запущена 🚀
+                </p>
 
-                {loading && <p>Загрузка...</p>}
+                <div style={styles.statusBlock}>
+                    {loading && (
+                        <p style={styles.loading}>Проверяем backend...</p>
+                    )}
 
-                {error && (
-                    <div
-                        style={{
-                            marginTop: '20px',
-                            padding: '16px',
-                            borderRadius: '12px',
-                            background: '#7f1d1d',
-                        }}
-                    >
-                        {error}
-                    </div>
-                )}
+                    {error && (
+                        <div style={styles.error}>
+                            ❌ {error}
+                        </div>
+                    )}
 
-                {data && (
-                    <div
-                        style={{
-                            marginTop: '20px',
-                            padding: '20px',
-                            borderRadius: '12px',
-                            background: '#1f2937',
-                        }}
-                    >
-                        <p><strong>Status:</strong> {data.status}</p>
-                        <p><strong>Message:</strong> {data.message}</p>
-                        <p><strong>Time:</strong> {data.time}</p>
-                    </div>
-                )}
+                    {data && (
+                        <div style={styles.success}>
+                            <p>✅ Backend подключён</p>
+                            <p><strong>Status:</strong> {data.status}</p>
+                            <p><strong>Message:</strong> {data.message}</p>
+                            <p><strong>Time:</strong> {data.time}</p>
+                        </div>
+                    )}
+                </div>
+
+                <div style={styles.footer}>
+                    <p>Frontend: Vercel</p>
+                    <p>Backend: Railway</p>
+                    <p>Database: PostgreSQL</p>
+                </div>
             </div>
         </div>
     );
 }
+
+const styles: Record<string, React.CSSProperties> = {
+    page: {
+        minHeight: '100vh',
+        background:
+            'linear-gradient(135deg, #020617, #0f172a, #1e293b)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        fontFamily: 'Inter, sans-serif',
+        color: '#fff',
+    },
+    card: {
+        width: '100%',
+        maxWidth: 700,
+        background: 'rgba(15, 23, 42, 0.8)',
+        backdropFilter: 'blur(20px)',
+        borderRadius: 24,
+        padding: 40,
+        boxShadow: '0 40px 80px rgba(0,0,0,0.5)',
+        textAlign: 'center',
+    },
+    title: {
+        fontSize: 48,
+        marginBottom: 10,
+        background: 'linear-gradient(90deg,#38bdf8,#6366f1)',
+        WebkitBackgroundClip: 'text',
+        color: 'transparent',
+    },
+    subtitle: {
+        opacity: 0.7,
+        marginBottom: 30,
+    },
+    statusBlock: {
+        marginTop: 20,
+    },
+    loading: {
+        opacity: 0.6,
+    },
+    error: {
+        background: '#7f1d1d',
+        padding: 16,
+        borderRadius: 12,
+        marginTop: 20,
+    },
+    success: {
+        background: '#064e3b',
+        padding: 20,
+        borderRadius: 12,
+        marginTop: 20,
+        textAlign: 'left',
+    },
+    footer: {
+        marginTop: 30,
+        opacity: 0.5,
+        fontSize: 14,
+    },
+};
 
 export default App;
