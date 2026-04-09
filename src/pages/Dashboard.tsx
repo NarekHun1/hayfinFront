@@ -1,8 +1,25 @@
+import { useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 import '../styles/dashboard.css';
 
 export default function Dashboard() {
-    const rawUser = localStorage.getItem('user');
-    const user = rawUser ? JSON.parse(rawUser) : null;
+    const navigate = useNavigate();
+
+    const user = useMemo(() => {
+        try {
+            const rawUser = localStorage.getItem('user');
+            return rawUser ? JSON.parse(rawUser) : null;
+        } catch {
+            return null;
+        }
+    }, []);
+
+    const handleLogout = () => {
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        window.dispatchEvent(new Event('auth-changed'));
+        navigate('/', { replace: true });
+    };
 
     return (
         <div className="dashboard">
@@ -15,14 +32,7 @@ export default function Dashboard() {
                     Դուք հաջողությամբ մուտք եք գործել համակարգ։
                 </p>
 
-                <button
-                    className="dashboard-button"
-                    onClick={() => {
-                        localStorage.removeItem('token');
-                        localStorage.removeItem('user');
-                        window.location.href = '/';
-                    }}
-                >
+                <button className="dashboard-button" onClick={handleLogout}>
                     Դուրս գալ
                 </button>
             </div>

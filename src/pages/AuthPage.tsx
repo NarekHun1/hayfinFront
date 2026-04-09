@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/auth.css';
 
-const API_URL = import.meta.env.VITE_API_URL;
+const API_URL = (import.meta.env.VITE_API_URL || '').replace(/\/$/, '');
 
 export default function AuthPage() {
     const navigate = useNavigate();
@@ -25,6 +25,11 @@ export default function AuthPage() {
     };
 
     const submit = async () => {
+        if (!API_URL) {
+            setError('API URL չի գտնվել։ Ստուգիր VITE_API_URL');
+            return;
+        }
+
         setLoading(true);
         setError('');
 
@@ -34,13 +39,13 @@ export default function AuthPage() {
             const payload =
                 mode === 'register'
                     ? {
-                        firstName: form.firstName,
-                        lastName: form.lastName,
-                        phone: form.phone,
+                        firstName: form.firstName.trim(),
+                        lastName: form.lastName.trim(),
+                        phone: form.phone.trim(),
                         password: form.password,
                     }
                     : {
-                        phone: form.phone,
+                        phone: form.phone.trim(),
                         password: form.password,
                     };
 
@@ -52,22 +57,42 @@ export default function AuthPage() {
                 body: JSON.stringify(payload),
             });
 
-            const data = await res.json().catch(() => ({}));
+            let data: any = {};
+            try {
+                data = await res.json();
+            } catch {
+                data = {};
+            }
 
             if (!res.ok) {
                 throw new Error(
                     typeof data?.message === 'string'
                         ? data.message
-                        : 'Սխալ տեղի ունեցավ',
+                        : `Սերվերի սխալ (${res.status})`,
                 );
             }
 
-            localStorage.setItem('token', data.token);
-            localStorage.setItem('user', JSON.stringify(data.user));
+            if (!data?.token) {
+                throw new Error('Token չի վերադարձել սերվերից');
+            }
 
-            navigate('/dashboard');
+            localStorage.setItem('token', data.token);
+            localStorage.setItem('user', JSON.stringify(data.user ?? null));
+
+            window.dispatchEvent(new Event('auth-changed'));
+            navigate('/dashboard', { replace: true });
         } catch (err: any) {
-            setError(err.message || 'Սխալ տեղի ունեցավ');
+            const msg = String(err?.message || '');
+
+            if (
+                msg.includes('Failed to fetch') ||
+                msg.includes('Load failed') ||
+                msg.includes('NetworkError')
+            ) {
+                setError('Չհաջողվեց կապ հաստատել սերվերի հետ։ Ստուգիր Railway/CORS/API URL');
+            } else {
+                setError(msg || 'Սխալ տեղի ունեցավ');
+            }
         } finally {
             setLoading(false);
         }

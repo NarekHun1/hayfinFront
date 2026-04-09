@@ -4,7 +4,7 @@ import AuthPage from './pages/AuthPage';
 import Dashboard from './pages/Dashboard';
 
 function App() {
-    const [token, setToken] = useState<string | null>(localStorage.getItem('token'));
+    const [token, setToken] = useState<string | null>(() => localStorage.getItem('token'));
 
     useEffect(() => {
         const syncAuth = () => {
