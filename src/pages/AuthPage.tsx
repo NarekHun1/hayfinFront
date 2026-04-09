@@ -2,13 +2,12 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/auth.css';
 
-const API_URL = import.meta.env.VITE_API_URL;
+const API_URL = (import.meta.env.VITE_API_URL || '').replace(/\/$/, '');
 
 export default function AuthPage() {
     const navigate = useNavigate();
 
     const [mode, setMode] = useState<'register' | 'login'>('register');
-
     const [form, setForm] = useState({
         firstName: '',
         lastName: '',
@@ -27,6 +26,11 @@ export default function AuthPage() {
     };
 
     const submit = async () => {
+        if (!API_URL) {
+            setError('VITE_API_URL նշված չէ');
+            return;
+        }
+
         setLoading(true);
         setError('');
 
@@ -48,16 +52,23 @@ export default function AuthPage() {
 
             const res = await fetch(`${API_URL}${endpoint}`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: {
+                    'Content-Type': 'application/json',
+                },
                 body: JSON.stringify(payload),
             });
 
-            const data = await res.json().catch(() => ({}));
+            let data: any = {};
+            try {
+                data = await res.json();
+            } catch {
+                data = {};
+            }
 
             if (!res.ok) {
                 const message = Array.isArray(data?.message)
                     ? data.message[0]
-                    : data?.message || 'Սխալ տեղի ունեցավ';
+                    : data?.message || 'Սերվերի սխալ';
                 throw new Error(message);
             }
 
@@ -68,9 +79,14 @@ export default function AuthPage() {
             localStorage.setItem('token', data.token);
             localStorage.setItem('user', JSON.stringify(data.user));
 
+            window.dispatchEvent(new Event('auth-changed'));
             navigate('/dashboard', { replace: true });
         } catch (err: any) {
-            setError(err.message || 'Սխալ տեղի ունեցավ');
+            if (err instanceof TypeError) {
+                setError('Կապ backend-ի հետ չստացվեց։ Ստուգիր VITE_API_URL և CORS-ը');
+            } else {
+                setError(err?.message || 'Սխալ տեղի ունեցավ');
+            }
         } finally {
             setLoading(false);
         }

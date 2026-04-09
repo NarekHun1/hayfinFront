@@ -24,6 +24,7 @@ export default function Dashboard() {
     const logout = () => {
         localStorage.removeItem('token');
         localStorage.removeItem('user');
+        window.dispatchEvent(new Event('auth-changed'));
         navigate('/', { replace: true });
     };
 
@@ -43,23 +44,17 @@ export default function Dashboard() {
                 <div className="dashboard-info">
                     <div className="dashboard-row">
                         <span className="dashboard-label">Անուն</span>
-                        <span className="dashboard-value">
-              {user?.firstName || '-'}
-            </span>
+                        <span className="dashboard-value">{user?.firstName || '-'}</span>
                     </div>
 
                     <div className="dashboard-row">
                         <span className="dashboard-label">Ազգանուն</span>
-                        <span className="dashboard-value">
-              {user?.lastName || '-'}
-            </span>
+                        <span className="dashboard-value">{user?.lastName || '-'}</span>
                     </div>
 
                     <div className="dashboard-row">
                         <span className="dashboard-label">Հեռախոսահամար</span>
-                        <span className="dashboard-value">
-              {user?.phone || '-'}
-            </span>
+                        <span className="dashboard-value">{user?.phone || '-'}</span>
                     </div>
                 </div>
 
