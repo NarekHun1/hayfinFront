@@ -1,5 +1,5 @@
 import '../styles/dashboard.css';
-import { useMemo } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 type User = {
@@ -11,23 +11,32 @@ type User = {
 
 export default function Dashboard() {
     const navigate = useNavigate();
+    const [user, setUser] = useState<User | null>(null);
 
-    const user = useMemo<User | null>(() => {
+    useEffect(() => {
         try {
             const rawUser = localStorage.getItem('user');
-            if (!rawUser) return null;
+
+            if (!rawUser) {
+                setUser(null);
+                return;
+            }
 
             const parsed = JSON.parse(rawUser);
-            if (!parsed || typeof parsed !== 'object') return null;
 
-            return parsed;
+            if (parsed && typeof parsed === 'object') {
+                setUser(parsed);
+            } else {
+                setUser(null);
+            }
         } catch (error) {
             console.error('Invalid user in localStorage:', error);
             localStorage.removeItem('user');
             localStorage.removeItem('token');
-            return null;
+            window.dispatchEvent(new Event('auth-changed'));
+            navigate('/', { replace: true });
         }
-    }, []);
+    }, [navigate]);
 
     const handleLogout = () => {
         localStorage.removeItem('token');

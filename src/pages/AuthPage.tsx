@@ -1,176 +1,155 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import '../styles/auth.css';
+import type { FormEvent } from 'react';
 
-const API_URL = (import.meta.env.VITE_API_URL || '').replace(/\/$/, '');
+type LoginResponse = {
+    token?: string;
+    access_token?: string;
+    user?: {
+        id?: number;
+        firstName?: string;
+        lastName?: string;
+        phone?: string;
+    };
+};
 
 export default function AuthPage() {
-    const navigate = useNavigate();
-
-    const [mode, setMode] = useState<'register' | 'login'>('register');
-    const [form, setForm] = useState({
-        firstName: '',
-        lastName: '',
-        phone: '',
-        password: '',
-    });
+    const [phone, setPhone] = useState('');
+    const [password, setPassword] = useState('');
+    const [mode, setMode] = useState<'login' | 'register'>('login');
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setForm((prev) => ({
-            ...prev,
-            [e.target.name]: e.target.value,
-        }));
-    };
+    const API_URL = import.meta.env.VITE_API_URL;
 
-    const submit = async () => {
-        setLoading(true);
+    const handleSubmit = async (e: FormEvent) => {
+        e.preventDefault();
         setError('');
+        setLoading(true);
 
         try {
-            const endpoint = mode === 'register' ? '/auth/register' : '/auth/login';
+            const endpoint = mode === 'login' ? '/auth/login' : '/auth/register';
 
-            const payload =
-                mode === 'register'
-                    ? {
-                        firstName: form.firstName.trim(),
-                        lastName: form.lastName.trim(),
-                        phone: form.phone.trim(),
-                        password: form.password,
-                    }
-                    : {
-                        phone: form.phone.trim(),
-                        password: form.password,
-                    };
+            const body =
+                mode === 'login'
+                    ? { phone, password }
+                    : { firstName, lastName, phone, password };
 
             const res = await fetch(`${API_URL}${endpoint}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(payload),
+                body: JSON.stringify(body),
             });
 
-            let data: any = {};
-            try {
-                data = await res.json();
-            } catch {
-                data = {};
-            }
+            const data: LoginResponse | any = await res.json().catch(() => ({}));
+
+            console.log('AUTH RESPONSE =>', data);
 
             if (!res.ok) {
                 throw new Error(
-                    typeof data?.message === 'string'
-                        ? data.message
-                        : 'Սխալ տեղի ունեցավ',
+                    data?.message || `${mode === 'login' ? 'Login' : 'Register'} failed`,
                 );
             }
 
-            if (!data?.token) {
-                throw new Error('Token not returned');
+            const token = data?.token || data?.access_token || null;
+            const user = data?.user || null;
+
+            if (!token) {
+                throw new Error('Token not found in response');
             }
 
-            localStorage.setItem('token', data.token);
-            localStorage.setItem('user', JSON.stringify(data.user ?? null));
+            localStorage.setItem('token', token);
+
+            if (user) {
+                localStorage.setItem('user', JSON.stringify(user));
+            } else {
+                localStorage.removeItem('user');
+            }
 
             window.dispatchEvent(new Event('auth-changed'));
-            navigate('/dashboard', { replace: true });
         } catch (err: any) {
-            console.error('Auth error:', err);
-            setError(err?.message || 'Սխալ տեղի ունեցավ');
+            console.error('AUTH ERROR:', err);
+            setError(err?.message || 'Something went wrong');
         } finally {
             setLoading(false);
         }
     };
 
     return (
-        <div className="auth-wrapper">
-            <div className="auth-card">
-                <div className="auth-badge">Hayfin</div>
+        <div style={{ minHeight: '100vh', display: 'grid', placeItems: 'center', padding: 20 }}>
+            <form
+                onSubmit={handleSubmit}
+                style={{
+                    width: '100%',
+                    maxWidth: 420,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: 12,
+                    padding: 24,
+                    borderRadius: 16,
+                    boxShadow: '0 10px 30px rgba(0,0,0,0.08)',
+                    background: '#fff',
+                }}
+            >
+                <h1>{mode === 'login' ? 'Login' : 'Register'}</h1>
 
-                <h1 className="auth-title">Բարի գալուստ</h1>
-                <p className="auth-subtitle">
-                    Գրանցվեք կամ մուտք գործեք՝ շարունակելու համար
-                </p>
+                {mode === 'register' && (
+                    <>
+                        <input
+                            placeholder="First name"
+                            value={firstName}
+                            onChange={(e) => setFirstName(e.target.value)}
+                        />
+                        <input
+                            placeholder="Last name"
+                            value={lastName}
+                            onChange={(e) => setLastName(e.target.value)}
+                        />
+                    </>
+                )}
 
-                <div className="auth-tabs">
-                    <button
-                        type="button"
-                        className={mode === 'register' ? 'tab active' : 'tab'}
-                        onClick={() => {
-                            setMode('register');
-                            setError('');
-                        }}
-                    >
-                        Գրանցում
-                    </button>
+                <input
+                    placeholder="Phone"
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                />
 
-                    <button
-                        type="button"
-                        className={mode === 'login' ? 'tab active' : 'tab'}
-                        onClick={() => {
-                            setMode('login');
-                            setError('');
-                        }}
-                    >
-                        Մուտք
-                    </button>
-                </div>
+                <input
+                    placeholder="Password"
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                />
 
-                <div className="auth-form">
-                    {mode === 'register' && (
-                        <>
-                            <input
-                                name="firstName"
-                                placeholder="Անուն"
-                                value={form.firstName}
-                                onChange={handleChange}
-                                className="auth-input"
-                            />
-                            <input
-                                name="lastName"
-                                placeholder="Ազգանուն"
-                                value={form.lastName}
-                                onChange={handleChange}
-                                className="auth-input"
-                            />
-                        </>
-                    )}
+                {error && (
+                    <div style={{ color: 'red', fontSize: 14 }}>
+                        {error}
+                    </div>
+                )}
 
-                    <input
-                        name="phone"
-                        placeholder="Հեռախոսահամար"
-                        value={form.phone}
-                        onChange={handleChange}
-                        className="auth-input"
-                    />
+                <button type="submit" disabled={loading}>
+                    {loading
+                        ? 'Loading...'
+                        : mode === 'login'
+                            ? 'Login'
+                            : 'Register'}
+                </button>
 
-                    <input
-                        name="password"
-                        type="password"
-                        placeholder="Գաղտնաբառ"
-                        value={form.password}
-                        onChange={handleChange}
-                        className="auth-input"
-                    />
-
-                    {error ? <div className="auth-error">{error}</div> : null}
-
-                    <button
-                        type="button"
-                        className="auth-button"
-                        onClick={submit}
-                        disabled={loading}
-                    >
-                        {loading
-                            ? 'Խնդրում ենք սպասել...'
-                            : mode === 'register'
-                                ? 'Գրանցվել'
-                                : 'Մուտք գործել'}
-                    </button>
-                </div>
-            </div>
+                <button
+                    type="button"
+                    onClick={() => {
+                        setMode((prev) => (prev === 'login' ? 'register' : 'login'));
+                        setError('');
+                    }}
+                >
+                    {mode === 'login'
+                        ? 'Create account'
+                        : 'Already have an account? Login'}
+                </button>
+            </form>
         </div>
     );
 }

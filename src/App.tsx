@@ -4,14 +4,23 @@ import AuthPage from './pages/AuthPage';
 import Dashboard from './pages/Dashboard';
 
 export default function App() {
-    const [token, setToken] = useState<string | null>(() => {
-        return localStorage.getItem('token');
-    });
+    const [token, setToken] = useState<string | null>(null);
+    const [ready, setReady] = useState(false);
 
     useEffect(() => {
         const syncAuth = () => {
-            setToken(localStorage.getItem('token'));
+            try {
+                const savedToken = localStorage.getItem('token');
+                setToken(savedToken);
+            } catch (error) {
+                console.error('localStorage error:', error);
+                setToken(null);
+            } finally {
+                setReady(true);
+            }
         };
+
+        syncAuth();
 
         window.addEventListener('auth-changed', syncAuth);
         window.addEventListener('storage', syncAuth);
@@ -21,6 +30,10 @@ export default function App() {
             window.removeEventListener('storage', syncAuth);
         };
     }, []);
+
+    if (!ready) {
+        return <div style={{ padding: 24 }}>Loading...</div>;
+    }
 
     return (
         <Routes>
