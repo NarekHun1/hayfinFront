@@ -10,8 +10,7 @@ export default function App() {
     useEffect(() => {
         const syncAuth = () => {
             try {
-                const savedToken = localStorage.getItem('token');
-                setToken(savedToken);
+                setToken(localStorage.getItem('token'));
             } catch (error) {
                 console.error('localStorage error:', error);
                 setToken(null);
@@ -41,12 +40,10 @@ export default function App() {
                 path="/"
                 element={token ? <Navigate to="/dashboard" replace /> : <AuthPage />}
             />
-
             <Route
                 path="/dashboard"
                 element={token ? <Dashboard /> : <Navigate to="/" replace />}
             />
-
             <Route
                 path="*"
                 element={<Navigate to={token ? '/dashboard' : '/'} replace />}

@@ -3,10 +3,10 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 type User = {
-    id?: number;
-    firstName?: string;
-    lastName?: string;
-    phone?: string;
+    id: number;
+    firstName: string;
+    lastName: string;
+    phone: string;
 };
 
 export default function Dashboard() {
@@ -16,23 +16,24 @@ export default function Dashboard() {
     useEffect(() => {
         try {
             const rawUser = localStorage.getItem('user');
+            const token = localStorage.getItem('token');
+
+            if (!token) {
+                navigate('/', { replace: true });
+                return;
+            }
 
             if (!rawUser) {
                 setUser(null);
                 return;
             }
 
-            const parsed = JSON.parse(rawUser);
-
-            if (parsed && typeof parsed === 'object') {
-                setUser(parsed);
-            } else {
-                setUser(null);
-            }
+            const parsed = JSON.parse(rawUser) as User;
+            setUser(parsed);
         } catch (error) {
-            console.error('Invalid user in localStorage:', error);
-            localStorage.removeItem('user');
+            console.error('Dashboard parse error:', error);
             localStorage.removeItem('token');
+            localStorage.removeItem('user');
             window.dispatchEvent(new Event('auth-changed'));
             navigate('/', { replace: true });
         }
