@@ -29,13 +29,12 @@ export default function AuthPage() {
         e.preventDefault();
         setError('');
 
-        if (!API_URL) {
-            setError('VITE_API_URL is missing');
-            return;
-        }
-
         try {
             setLoading(true);
+
+            if (!API_URL) {
+                throw new Error('VITE_API_URL is missing');
+            }
 
             const endpoint = mode === 'login' ? '/auth/login' : '/auth/register';
 
@@ -60,20 +59,19 @@ export default function AuthPage() {
                 body: JSON.stringify(payload),
             });
 
-            const data = (await res.json().catch(() => null)) as AuthResponse | null;
+            const data = (await res.json()) as AuthResponse;
 
             console.log('AUTH RESPONSE:', data);
 
-            if (!res.ok || !data) {
+            if (!res.ok) {
                 throw new Error(data?.message || 'Authentication failed');
-            }
-
-            if (!data.token) {
-                throw new Error('Token not found in response');
             }
 
             localStorage.setItem('token', data.token);
             localStorage.setItem('user', JSON.stringify(data.user));
+
+            console.log('TOKEN SAVED:', localStorage.getItem('token'));
+            console.log('USER SAVED:', localStorage.getItem('user'));
 
             window.dispatchEvent(new Event('auth-changed'));
         } catch (err) {
@@ -96,7 +94,6 @@ export default function AuthPage() {
                 display: 'grid',
                 placeItems: 'center',
                 padding: '20px',
-                background: '#f5f7fb',
             }}
         >
             <form
@@ -104,18 +101,16 @@ export default function AuthPage() {
                 style={{
                     width: '100%',
                     maxWidth: '420px',
-                    background: '#fff',
-                    padding: '24px',
-                    borderRadius: '20px',
-                    boxShadow: '0 10px 30px rgba(0,0,0,0.08)',
                     display: 'flex',
                     flexDirection: 'column',
                     gap: '12px',
+                    padding: '24px',
+                    borderRadius: '20px',
+                    background: '#fff',
+                    boxShadow: '0 10px 30px rgba(0,0,0,0.08)',
                 }}
             >
-                <h1 style={{ margin: 0 }}>
-                    {mode === 'login' ? 'Login' : 'Register'}
-                </h1>
+                <h1>{mode === 'login' ? 'Login' : 'Register'}</h1>
 
                 {mode === 'register' && (
                     <>
@@ -124,15 +119,12 @@ export default function AuthPage() {
                             placeholder="First name"
                             value={firstName}
                             onChange={(e) => setFirstName(e.target.value)}
-                            style={{ padding: '12px' }}
                         />
-
                         <input
                             type="text"
                             placeholder="Last name"
                             value={lastName}
                             onChange={(e) => setLastName(e.target.value)}
-                            style={{ padding: '12px' }}
                         />
                     </>
                 )}
@@ -142,7 +134,6 @@ export default function AuthPage() {
                     placeholder="Phone"
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
-                    style={{ padding: '12px' }}
                 />
 
                 <input
@@ -150,28 +141,12 @@ export default function AuthPage() {
                     placeholder="Password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    style={{ padding: '12px' }}
                 />
 
-                {error ? (
-                    <div style={{ color: 'red', fontSize: '14px' }}>{error}</div>
-                ) : null}
+                {error ? <div style={{ color: 'red' }}>{error}</div> : null}
 
-                <button
-                    type="submit"
-                    disabled={loading}
-                    style={{
-                        padding: '12px',
-                        borderRadius: '12px',
-                        border: 'none',
-                        cursor: 'pointer',
-                    }}
-                >
-                    {loading
-                        ? 'Loading...'
-                        : mode === 'login'
-                            ? 'Login'
-                            : 'Register'}
+                <button type="submit" disabled={loading}>
+                    {loading ? 'Loading...' : mode === 'login' ? 'Login' : 'Register'}
                 </button>
 
                 <button
@@ -179,11 +154,6 @@ export default function AuthPage() {
                     onClick={() => {
                         setMode((prev) => (prev === 'login' ? 'register' : 'login'));
                         setError('');
-                    }}
-                    style={{
-                        padding: '12px',
-                        borderRadius: '12px',
-                        cursor: 'pointer',
                     }}
                 >
                     {mode === 'login'

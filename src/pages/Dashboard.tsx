@@ -15,8 +15,11 @@ export default function Dashboard() {
 
     useEffect(() => {
         try {
-            const rawUser = localStorage.getItem('user');
             const token = localStorage.getItem('token');
+            const rawUser = localStorage.getItem('user');
+
+            console.log('DASHBOARD TOKEN:', token);
+            console.log('DASHBOARD USER:', rawUser);
 
             if (!token) {
                 navigate('/', { replace: true });
@@ -31,7 +34,7 @@ export default function Dashboard() {
             const parsed = JSON.parse(rawUser) as User;
             setUser(parsed);
         } catch (error) {
-            console.error('Dashboard parse error:', error);
+            console.error('DASHBOARD ERROR:', error);
             localStorage.removeItem('token');
             localStorage.removeItem('user');
             window.dispatchEvent(new Event('auth-changed'));

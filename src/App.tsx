@@ -10,9 +10,11 @@ export default function App() {
     useEffect(() => {
         const syncAuth = () => {
             try {
-                setToken(localStorage.getItem('token'));
+                const savedToken = localStorage.getItem('token');
+                console.log('APP TOKEN:', savedToken);
+                setToken(savedToken);
             } catch (error) {
-                console.error('localStorage error:', error);
+                console.error('APP ERROR:', error);
                 setToken(null);
             } finally {
                 setReady(true);
