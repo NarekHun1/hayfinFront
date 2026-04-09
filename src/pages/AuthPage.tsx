@@ -1,9 +1,12 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import '../styles/auth.css';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
 export default function AuthPage() {
+    const navigate = useNavigate();
+
     const [mode, setMode] = useState<'register' | 'login'>('register');
 
     const [form, setForm] = useState({
@@ -32,9 +35,14 @@ export default function AuthPage() {
 
             const payload =
                 mode === 'register'
-                    ? form
+                    ? {
+                        firstName: form.firstName.trim(),
+                        lastName: form.lastName.trim(),
+                        phone: form.phone.trim(),
+                        password: form.password,
+                    }
                     : {
-                        phone: form.phone,
+                        phone: form.phone.trim(),
                         password: form.password,
                     };
 
@@ -44,20 +52,23 @@ export default function AuthPage() {
                 body: JSON.stringify(payload),
             });
 
-            const data = await res.json();
+            const data = await res.json().catch(() => ({}));
 
             if (!res.ok) {
-                throw new Error(
-                    typeof data?.message === 'string'
-                        ? data.message
-                        : 'Սխալ տեղի ունեցավ',
-                );
+                const message = Array.isArray(data?.message)
+                    ? data.message[0]
+                    : data?.message || 'Սխալ տեղի ունեցավ';
+                throw new Error(message);
+            }
+
+            if (!data?.token || !data?.user) {
+                throw new Error('Սերվերի պատասխանը սխալ է');
             }
 
             localStorage.setItem('token', data.token);
             localStorage.setItem('user', JSON.stringify(data.user));
 
-            window.location.href = '/dashboard';
+            navigate('/dashboard', { replace: true });
         } catch (err: any) {
             setError(err.message || 'Սխալ տեղի ունեցավ');
         } finally {
@@ -137,7 +148,7 @@ export default function AuthPage() {
                         className="auth-input"
                     />
 
-                    {error && <div className="auth-error">{error}</div>}
+                    {error ? <div className="auth-error">{error}</div> : null}
 
                     <button
                         type="button"

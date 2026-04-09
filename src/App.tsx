@@ -16,6 +16,10 @@ function App() {
                     path="/dashboard"
                     element={token ? <Dashboard /> : <Navigate to="/" replace />}
                 />
+                <Route
+                    path="*"
+                    element={<Navigate to={token ? '/dashboard' : '/'} replace />}
+                />
             </Routes>
         </BrowserRouter>
     );
