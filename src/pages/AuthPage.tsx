@@ -4,8 +4,6 @@ import '../styles/auth.css';
 
 type AuthMode = 'login' | 'register';
 
-
-
 export default function AuthPage() {
     const [mode, setMode] = useState<AuthMode>('login');
     const [firstName, setFirstName] = useState('');
@@ -25,7 +23,7 @@ export default function AuthPage() {
             setLoading(true);
 
             if (!API_URL) {
-                throw new Error('VITE_API_URL is missing');
+                throw new Error('API հասցեն բացակայում է');
             }
 
             const endpoint = mode === 'login' ? '/auth/login' : '/auth/register';
@@ -55,7 +53,7 @@ export default function AuthPage() {
             const data = raw ? JSON.parse(raw) : null;
 
             if (!res.ok) {
-                throw new Error(data?.message || 'Authentication failed');
+                throw new Error(data?.message || 'Նույնականացման սխալ');
             }
 
             localStorage.setItem('token', data.token);
@@ -65,7 +63,7 @@ export default function AuthPage() {
             if (err instanceof Error) {
                 setError(err.message);
             } else {
-                setError('Something went wrong');
+                setError('Ինչ-որ սխալ տեղի ունեցավ');
             }
         } finally {
             setLoading(false);
@@ -82,26 +80,26 @@ export default function AuthPage() {
                     <div className="auth-brand-badge">HAYFIN</div>
 
                     <h1 className="auth-brand-title">
-                        Smart finance platform for modern clients
+                        Խելացի ֆինանսական հարթակ ժամանակակից հաճախորդների համար
                     </h1>
 
                     <p className="auth-brand-text">
-                        Hayfin brings together speed, trust and a clean digital experience
-                        for your users. Login or create your account to continue.
+                        Hayfin-ը միավորում է արագությունը, վստահելիությունը և մաքուր թվային փորձառությունը
+                        ձեր օգտատերերի համար։ Մուտք գործեք կամ ստեղծեք հաշիվ՝ շարունակելու համար։
                     </p>
 
                     <div className="auth-brand-points">
                         <div className="auth-point">
                             <span className="auth-point-dot" />
-                            Fast and secure access
+                            Արագ և անվտանգ մուտք
                         </div>
                         <div className="auth-point">
                             <span className="auth-point-dot" />
-                            Clean dashboard experience
+                            Հարմար և մաքուր կառավարման վահանակ
                         </div>
                         <div className="auth-point">
                             <span className="auth-point-dot" />
-                            Built for a premium finance brand
+                            Ստեղծված է պրեմիում ֆինանսական բրենդի համար
                         </div>
                     </div>
                 </div>
@@ -109,7 +107,7 @@ export default function AuthPage() {
                 <div className="auth-card">
                     <div className="auth-card-top">
                         <div>
-                            <div className="auth-mini-label">Welcome to</div>
+                            <div className="auth-mini-label">Բարի գալուստ</div>
                             <h2 className="auth-title">Hayfin</h2>
                         </div>
 
@@ -122,7 +120,7 @@ export default function AuthPage() {
                                     setError('');
                                 }}
                             >
-                                Login
+                                Մուտք
                             </button>
                             <button
                                 type="button"
@@ -132,7 +130,7 @@ export default function AuthPage() {
                                     setError('');
                                 }}
                             >
-                                Register
+                                Գրանցում
                             </button>
                         </div>
                     </div>
@@ -141,20 +139,20 @@ export default function AuthPage() {
                         {mode === 'register' && (
                             <div className="auth-grid">
                                 <div className="auth-field">
-                                    <label>First name</label>
+                                    <label>Անուն</label>
                                     <input
                                         type="text"
-                                        placeholder="Enter first name"
+                                        placeholder="Մուտքագրեք անունը"
                                         value={firstName}
                                         onChange={(e) => setFirstName(e.target.value)}
                                     />
                                 </div>
 
                                 <div className="auth-field">
-                                    <label>Last name</label>
+                                    <label>Ազգանուն</label>
                                     <input
                                         type="text"
-                                        placeholder="Enter last name"
+                                        placeholder="Մուտքագրեք ազգանունը"
                                         value={lastName}
                                         onChange={(e) => setLastName(e.target.value)}
                                     />
@@ -163,20 +161,20 @@ export default function AuthPage() {
                         )}
 
                         <div className="auth-field">
-                            <label>Phone</label>
+                            <label>Հեռախոսահամար</label>
                             <input
                                 type="text"
-                                placeholder="Enter phone number"
+                                placeholder="Մուտքագրեք հեռախոսահամարը"
                                 value={phone}
                                 onChange={(e) => setPhone(e.target.value)}
                             />
                         </div>
 
                         <div className="auth-field">
-                            <label>Password</label>
+                            <label>Գաղտնաբառ</label>
                             <input
                                 type="password"
-                                placeholder="Enter password"
+                                placeholder="Մուտքագրեք գաղտնաբառը"
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                             />
@@ -186,17 +184,17 @@ export default function AuthPage() {
 
                         <button className="auth-submit" type="submit" disabled={loading}>
                             {loading
-                                ? 'Please wait...'
+                                ? 'Խնդրում ենք սպասել...'
                                 : mode === 'login'
-                                    ? 'Login'
-                                    : 'Create account'}
+                                    ? 'Մուտք գործել'
+                                    : 'Ստեղծել հաշիվ'}
                         </button>
                     </form>
 
                     <div className="auth-footer-text">
                         {mode === 'login' ? (
                             <>
-                                Don&apos;t have an account?{' '}
+                                Հաշիվ չունե՞ք{' '}
                                 <button
                                     type="button"
                                     className="auth-link-btn"
@@ -205,12 +203,12 @@ export default function AuthPage() {
                                         setError('');
                                     }}
                                 >
-                                    Register
+                                    Գրանցվել
                                 </button>
                             </>
                         ) : (
                             <>
-                                Already have an account?{' '}
+                                Արդեն ունե՞ք հաշիվ{' '}
                                 <button
                                     type="button"
                                     className="auth-link-btn"
@@ -219,7 +217,7 @@ export default function AuthPage() {
                                         setError('');
                                     }}
                                 >
-                                    Login
+                                    Մուտք
                                 </button>
                             </>
                         )}
