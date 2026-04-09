@@ -3,8 +3,10 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 import AuthPage from './pages/AuthPage';
 import Dashboard from './pages/Dashboard';
 
-function App() {
-    const [token, setToken] = useState<string | null>(() => localStorage.getItem('token'));
+export default function App() {
+    const [token, setToken] = useState<string | null>(() => {
+        return localStorage.getItem('token');
+    });
 
     useEffect(() => {
         const syncAuth = () => {
@@ -26,10 +28,12 @@ function App() {
                 path="/"
                 element={token ? <Navigate to="/dashboard" replace /> : <AuthPage />}
             />
+
             <Route
                 path="/dashboard"
                 element={token ? <Dashboard /> : <Navigate to="/" replace />}
             />
+
             <Route
                 path="*"
                 element={<Navigate to={token ? '/dashboard' : '/'} replace />}
@@ -37,5 +41,3 @@ function App() {
         </Routes>
     );
 }
-
-export default App;
