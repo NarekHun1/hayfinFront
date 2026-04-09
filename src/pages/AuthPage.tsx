@@ -2,7 +2,8 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/auth.css';
 
-const API_URL = (import.meta.env.VITE_API_URL || '').replace(/\/$/, '');
+const RAW_API_URL = import.meta.env.VITE_API_URL;
+const API_URL = typeof RAW_API_URL === 'string' ? RAW_API_URL.replace(/\/$/, '') : '';
 
 export default function AuthPage() {
     const navigate = useNavigate();
@@ -26,13 +27,14 @@ export default function AuthPage() {
     };
 
     const submit = async () => {
+        setError('');
+
         if (!API_URL) {
-            setError('VITE_API_URL նշված չէ');
+            setError('VITE_API_URL բացակայում է');
             return;
         }
 
         setLoading(true);
-        setError('');
 
         try {
             const endpoint = mode === 'register' ? '/auth/register' : '/auth/login';
@@ -50,7 +52,12 @@ export default function AuthPage() {
                         password: form.password,
                     };
 
-            const res = await fetch(`${API_URL}${endpoint}`, {
+            const requestUrl = `${API_URL}${endpoint}`;
+            console.log('VITE_API_URL =', API_URL);
+            console.log('REQUEST URL =', requestUrl);
+            console.log('PAYLOAD =', payload);
+
+            const res = await fetch(requestUrl, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -58,9 +65,12 @@ export default function AuthPage() {
                 body: JSON.stringify(payload),
             });
 
+            const text = await res.text();
+            console.log('RAW RESPONSE =', text);
+
             let data: any = {};
             try {
-                data = await res.json();
+                data = text ? JSON.parse(text) : {};
             } catch {
                 data = {};
             }
@@ -68,12 +78,12 @@ export default function AuthPage() {
             if (!res.ok) {
                 const message = Array.isArray(data?.message)
                     ? data.message[0]
-                    : data?.message || 'Սերվերի սխալ';
+                    : data?.message || `HTTP ${res.status}`;
                 throw new Error(message);
             }
 
             if (!data?.token || !data?.user) {
-                throw new Error('Սերվերի պատասխանը սխալ է');
+                throw new Error('Սերվերը token/user չվերադարձրեց');
             }
 
             localStorage.setItem('token', data.token);
@@ -82,8 +92,10 @@ export default function AuthPage() {
             window.dispatchEvent(new Event('auth-changed'));
             navigate('/dashboard', { replace: true });
         } catch (err: any) {
+            console.error('AUTH ERROR =', err);
+
             if (err instanceof TypeError) {
-                setError('Կապ backend-ի հետ չստացվեց։ Ստուգիր VITE_API_URL և CORS-ը');
+                setError('Network error / Load failed. Ստուգիր API URL-ը կամ backend-ը');
             } else {
                 setError(err?.message || 'Սխալ տեղի ունեցավ');
             }
