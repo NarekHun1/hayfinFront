@@ -80,26 +80,34 @@ export default function AuthPage() {
                     <div className="auth-brand-badge">HAYFIN</div>
 
                     <h1 className="auth-brand-title">
-                        Խելացի ֆինանսական հարթակ ժամանակակից հաճախորդների համար
+                        Ֆինանսավորում՝ արագ, հարմար և վստահելի
                     </h1>
 
                     <p className="auth-brand-text">
-                        Hayfin-ը միավորում է արագությունը, վստահելիությունը և մաքուր թվային փորձառությունը
-                        ձեր օգտատերերի համար։ Մուտք գործեք կամ ստեղծեք հաշիվ՝ շարունակելու համար։
+                        Մենք առաջարկում ենք արագ և հարմար ֆինանսավորում՝ պարզ գործընթացով
+                        և վստահելի պայմաններով։
                     </p>
 
                     <div className="auth-brand-points">
                         <div className="auth-point">
                             <span className="auth-point-dot" />
-                            Արագ և անվտանգ մուտք
+                            Գումարի տրամադրում՝ 100.000 - 4.000.000 դրամ
                         </div>
                         <div className="auth-point">
                             <span className="auth-point-dot" />
-                            Հարմար և մաքուր կառավարման վահանակ
+                            Տարեկան տոկոսադրույք՝ սկսած 11%-ից
                         </div>
                         <div className="auth-point">
                             <span className="auth-point-dot" />
-                            Ստեղծված է պրեմիում ֆինանսական բրենդի համար
+                            Արագ հաստատում
+                        </div>
+                        <div className="auth-point">
+                            <span className="auth-point-dot" />
+                            Քո ճկուն ֆինանսական գործընկերը
+                        </div>
+                        <div className="auth-point">
+                            <span className="auth-point-dot" />
+                            077 882925
                         </div>
                     </div>
                 </div>
