@@ -3,16 +3,16 @@ import type { FormEvent } from 'react';
 
 type AuthMode = 'login' | 'register';
 
-type AuthResponse = {
-    message: string;
-    token: string;
-    user: {
-        id: number;
-        firstName: string;
-        lastName: string;
-        phone: string;
-    };
-};
+// type AuthResponse = {
+//     message: string;
+//     token: string;
+//     user: {
+//         id: number;
+//         firstName: string;
+//         lastName: string;
+//         phone: string;
+//     };
+// };
 
 export default function AuthPage() {
     const [mode, setMode] = useState<AuthMode>('login');
@@ -51,6 +51,10 @@ export default function AuthPage() {
                         password,
                     };
 
+            console.log('API_URL:', API_URL);
+            console.log('REQUEST URL:', `${API_URL}${endpoint}`);
+            console.log('PAYLOAD:', payload);
+
             const res = await fetch(`${API_URL}${endpoint}`, {
                 method: 'POST',
                 headers: {
@@ -59,9 +63,18 @@ export default function AuthPage() {
                 body: JSON.stringify(payload),
             });
 
-            const data = (await res.json()) as AuthResponse;
+            console.log('STATUS:', res.status);
 
-            console.log('AUTH RESPONSE:', data);
+            const raw = await res.text();
+            console.log('RAW RESPONSE:', raw);
+
+            let data: any = null;
+
+            try {
+                data = raw ? JSON.parse(raw) : null;
+            } catch {
+                throw new Error(`Server returned invalid JSON: ${raw}`);
+            }
 
             if (!res.ok) {
                 throw new Error(data?.message || 'Authentication failed');
@@ -69,10 +82,6 @@ export default function AuthPage() {
 
             localStorage.setItem('token', data.token);
             localStorage.setItem('user', JSON.stringify(data.user));
-
-            console.log('TOKEN SAVED:', localStorage.getItem('token'));
-            console.log('USER SAVED:', localStorage.getItem('user'));
-
             window.dispatchEvent(new Event('auth-changed'));
         } catch (err) {
             console.error('AUTH ERROR:', err);
@@ -80,7 +89,7 @@ export default function AuthPage() {
             if (err instanceof Error) {
                 setError(err.message);
             } else {
-                setError('Something went wrong');
+                setError('Load failed');
             }
         } finally {
             setLoading(false);
