@@ -25,11 +25,6 @@ export default function AuthPage() {
     };
 
     const submit = async () => {
-        if (!API_URL) {
-            setError('API URL չի գտնվել։ Ստուգիր VITE_API_URL');
-            return;
-        }
-
         setLoading(true);
         setError('');
 
@@ -68,12 +63,12 @@ export default function AuthPage() {
                 throw new Error(
                     typeof data?.message === 'string'
                         ? data.message
-                        : `Սերվերի սխալ (${res.status})`,
+                        : 'Սխալ տեղի ունեցավ',
                 );
             }
 
             if (!data?.token) {
-                throw new Error('Token չի վերադարձել սերվերից');
+                throw new Error('Token not returned');
             }
 
             localStorage.setItem('token', data.token);
@@ -82,17 +77,8 @@ export default function AuthPage() {
             window.dispatchEvent(new Event('auth-changed'));
             navigate('/dashboard', { replace: true });
         } catch (err: any) {
-            const msg = String(err?.message || '');
-
-            if (
-                msg.includes('Failed to fetch') ||
-                msg.includes('Load failed') ||
-                msg.includes('NetworkError')
-            ) {
-                setError('Չհաջողվեց կապ հաստատել սերվերի հետ։ Ստուգիր Railway/CORS/API URL');
-            } else {
-                setError(msg || 'Սխալ տեղի ունեցավ');
-            }
+            console.error('Auth error:', err);
+            setError(err?.message || 'Սխալ տեղի ունեցավ');
         } finally {
             setLoading(false);
         }

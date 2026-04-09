@@ -1,18 +1,19 @@
-import { useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
 import '../styles/dashboard.css';
+import { useNavigate } from 'react-router-dom';
 
 export default function Dashboard() {
     const navigate = useNavigate();
 
-    const user = useMemo(() => {
-        try {
-            const rawUser = localStorage.getItem('user');
-            return rawUser ? JSON.parse(rawUser) : null;
-        } catch {
-            return null;
-        }
-    }, []);
+    let user: any = null;
+
+    try {
+        const rawUser = localStorage.getItem('user');
+        user = rawUser ? JSON.parse(rawUser) : null;
+    } catch (e) {
+        console.error('Invalid user in localStorage:', e);
+        localStorage.removeItem('user');
+        localStorage.removeItem('token');
+    }
 
     const handleLogout = () => {
         localStorage.removeItem('token');
