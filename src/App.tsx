@@ -1,23 +1,23 @@
 import { useEffect, useState } from 'react';
-import { Route, Routes } from 'react-router-dom';
 import AuthPage from './pages/AuthPage';
 import Home from './pages/Home';
 
 export default function App() {
-    const [ready, setReady] = useState(false);
+    const [token, setToken] = useState<string | null>(localStorage.getItem('token'));
 
     useEffect(() => {
-        setReady(true);
+        const syncAuth = () => {
+            setToken(localStorage.getItem('token'));
+        };
+
+        window.addEventListener('auth-changed', syncAuth);
+        window.addEventListener('storage', syncAuth);
+
+        return () => {
+            window.removeEventListener('auth-changed', syncAuth);
+            window.removeEventListener('storage', syncAuth);
+        };
     }, []);
 
-    if (!ready) {
-        return <div>Loading...</div>;
-    }
-
-    return (
-        <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/auth" element={<AuthPage />} />
-        </Routes>
-    );
+    return token ? <Home /> : <AuthPage />;
 }
