@@ -1,9 +1,8 @@
 import '../styles/Header.css';
-import logo from '../assets/hayfin-logo.png'; // замени путь если нужно
-
+import logo from '../assets/hayfin.png';
 export default function Header() {
     return (
-        <header className="hayfin-header">
+        <header className="  ">
             <div className="hayfin-header__container">
                 <a href="/" className="hayfin-header__brand">
                     <img src={logo} alt="Hayfin Logo" className="hayfin-header__logo" />
