@@ -43,18 +43,19 @@ export default function AdminLoginPage() {
 
             setAdminToken(data.token);
 
-            console.log('admin_token after set:', localStorage.getItem('admin_token'));
-            console.log('token after set:', localStorage.getItem('token'));
+            const parsedUser = getAdminUser();
+            console.log('PARSED ADMIN USER:', parsedUser);
 
-            const user = getAdminUser();
-            console.log('PARSED ADMIN USER:', user);
-
-            if (!isAdminAllowed(user)) {
+            if (!parsedUser) {
                 removeAdminToken();
-                throw new Error('You do not have admin access');
+                throw new Error('Failed to parse admin token');
             }
 
-            console.log('GO TO ADMIN DASHBOARD');
+            if (!isAdminAllowed(parsedUser)) {
+                removeAdminToken();
+                throw new Error(`Access denied. Role: ${parsedUser.role ?? 'unknown'}`);
+            }
+
             navigate('/admin/dashboard', { replace: true });
         } catch (err) {
             console.error('ADMIN LOGIN ERROR:', err);
@@ -77,6 +78,7 @@ export default function AdminLoginPage() {
                     <input
                         type="text"
                         placeholder="Phone"
+                        autoComplete="username"
                         value={phone}
                         onChange={(e) => setPhone(e.target.value)}
                     />
@@ -84,6 +86,7 @@ export default function AdminLoginPage() {
                     <input
                         type="password"
                         placeholder="Password"
+                        autoComplete="current-password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                     />
