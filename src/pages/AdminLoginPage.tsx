@@ -1,7 +1,14 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import { adminLogin } from '../services/adminApi';
-import { getAdminUser, isAdminAllowed, setAdminToken } from '../utils/adminAuth';
+import {
+    getAdminUser,
+    isAdminAllowed,
+    setAdminToken,
+    getAdminToken,
+    removeAdminToken,
+} from '../utils/adminAuth';
+
 import '../admin/components/AdminLayout.css';
 
 export default function AdminLoginPage() {
@@ -12,28 +19,43 @@ export default function AdminLoginPage() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
 
+    // ✅ если уже залогинен → сразу в dashboard
+    const existingToken = getAdminToken();
+    const existingUser = getAdminUser();
+
+    if (existingToken && isAdminAllowed(existingUser)) {
+        return <Navigate to="/admin/dashboard" replace />;
+    }
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setError('');
         setLoading(true);
 
         try {
-            const data = await adminLogin(phone, password);
+            const data = await adminLogin(phone.trim(), password);
 
             if (!data?.token) {
                 throw new Error('Token not received');
             }
 
+            // сохраняем токен
             setAdminToken(data.token);
 
             const user = getAdminUser();
 
+            // ❗ если не админ → удаляем токен
             if (!isAdminAllowed(user)) {
+                removeAdminToken();
                 throw new Error('You do not have admin access');
             }
 
-            navigate('/admin/dashboard');
+            // ✅ нормальный редирект
+            navigate('/admin/dashboard', { replace: true });
+
         } catch (err) {
+            console.error('ADMIN LOGIN ERROR:', err);
+
             setError(err instanceof Error ? err.message : 'Login failed');
         } finally {
             setLoading(false);
@@ -44,7 +66,9 @@ export default function AdminLoginPage() {
         <div className="admin-login">
             <div className="admin-login__card">
                 <div className="admin-login__brand">HAYFIN Admin</div>
+
                 <h1 className="admin-login__title">Sign in</h1>
+
                 <p className="admin-login__subtitle">
                     Enter your credentials to access the admin panel
                 </p>
@@ -55,6 +79,7 @@ export default function AdminLoginPage() {
                         placeholder="Phone"
                         value={phone}
                         onChange={(e) => setPhone(e.target.value)}
+                        autoComplete="username"
                     />
 
                     <input
@@ -62,9 +87,12 @@ export default function AdminLoginPage() {
                         placeholder="Password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
+                        autoComplete="current-password"
                     />
 
-                    {error ? <div className="admin-login__error">{error}</div> : null}
+                    {error && (
+                        <div className="admin-login__error">{error}</div>
+                    )}
 
                     <button type="submit" disabled={loading}>
                         {loading ? 'Loading...' : 'Login'}

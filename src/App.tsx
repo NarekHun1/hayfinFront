@@ -9,27 +9,37 @@ import AdminDashboardPage from './pages/AdminDashboardPage';
 import ProtectedAdminRoute from './admin/components/ProtectedAdminRoute';
 
 export default function App() {
-    const [token, setToken] = useState<string | null>(localStorage.getItem('token'));
+    const [userToken, setUserToken] = useState<string | null>(localStorage.getItem('token'));
+    const [adminToken, setAdminToken] = useState<string | null>(localStorage.getItem('admin_token'));
 
     useEffect(() => {
         const syncAuth = () => {
-            setToken(localStorage.getItem('token'));
+            setUserToken(localStorage.getItem('token'));
+            setAdminToken(localStorage.getItem('admin_token'));
         };
 
         window.addEventListener('auth-changed', syncAuth);
-        window.addEventListener('storage', syncAuth);
         window.addEventListener('admin-auth-changed', syncAuth);
+        window.addEventListener('storage', syncAuth);
 
         return () => {
             window.removeEventListener('auth-changed', syncAuth);
-            window.removeEventListener('storage', syncAuth);
             window.removeEventListener('admin-auth-changed', syncAuth);
+            window.removeEventListener('storage', syncAuth);
         };
     }, []);
 
     return (
         <Routes>
-            <Route path="/admin/login" element={<AdminLoginPage />} />
+            <Route
+                path="/admin/login"
+                element={
+                    adminToken
+                        ? <Navigate to="/admin/dashboard" replace />
+                        : <AdminLoginPage />
+                }
+            />
+
             <Route
                 path="/admin/dashboard"
                 element={
@@ -41,11 +51,12 @@ export default function App() {
 
             <Route
                 path="/"
-                element={token ? <Home /> : <Navigate to="/auth" replace />}
+                element={userToken ? <Home /> : <Navigate to="/auth" replace />}
             />
+
             <Route
                 path="/auth"
-                element={!token ? <AuthPage /> : <Navigate to="/" replace />}
+                element={!userToken ? <AuthPage /> : <Navigate to="/" replace />}
             />
 
             <Route path="*" element={<Navigate to="/" replace />} />
