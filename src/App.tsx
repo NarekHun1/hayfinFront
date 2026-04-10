@@ -18,10 +18,12 @@ export default function App() {
 
         window.addEventListener('auth-changed', syncAuth);
         window.addEventListener('storage', syncAuth);
+        window.addEventListener('admin-auth-changed', syncAuth);
 
         return () => {
             window.removeEventListener('auth-changed', syncAuth);
             window.removeEventListener('storage', syncAuth);
+            window.removeEventListener('admin-auth-changed', syncAuth);
         };
     }, []);
 
