@@ -11,72 +11,81 @@ export default function Home() {
             <main className="home-main">
                 <section className="home-hero">
                     <div className="home-hero__content">
-                        <span className="home-badge">HAYFIN</span>
+                        <span className="home-badge">HAYFIN • Ֆինանսավորում</span>
 
                         <h1 className="home-title">
-                            Ֆինանսավորում՝ <span>արագ, հարմար</span> և վստահելի
+                            Արագ ֆինանսավորում՝
+                            <span> վստահելի և հարմար</span>
                         </h1>
 
                         <p className="home-description">
-                            Մենք առաջարկում ենք արագ և հարմար ֆինանսավորում՝ պարզ գործընթացով
-                            և վստահելի պայմաններով։
+                            Ստացիր ֆինանսավորում պարզ գործընթացով, արագ հաստատմամբ և
+                            հարմար պայմաններով։
                             {user?.firstName ? ` Բարի գալուստ, ${user.firstName}։` : ''}
                         </p>
+
+                        <div className="home-points">
+                            <div className="home-point">✔ 100.000 - 4.000.000 դրամ</div>
+                            <div className="home-point">✔ Տարեկան տոկոսադրույք՝ սկսած 11%-ից</div>
+                            <div className="home-point">✔ Արագ հաստատում և պարզ գործընթաց</div>
+                        </div>
 
                         <div className="home-actions">
                             <button className="home-btn home-btn--primary">
                                 Ստանալ առաջարկ
                             </button>
                             <button className="home-btn home-btn--secondary">
-                                Իմանալ ավելին
+                                Զանգահարել հիմա
                             </button>
                         </div>
 
-                        <div className="home-stats">
-                            <div className="home-stat">
-                                <strong>100.000 - 4.000.000 դրամ</strong>
-                                <span>Գումարի տրամադրում</span>
-                            </div>
-
-                            <div className="home-stat">
-                                <strong>11%-ից</strong>
-                                <span>Տարեկան տոկոսադրույք</span>
-                            </div>
-
-                            <div className="home-stat">
-                                <strong>Արագ</strong>
-                                <span>Հաստատման գործընթաց</span>
-                            </div>
-                        </div>
+                        <a className="home-phone-inline" href="tel:077882925">
+                            077 882925
+                        </a>
                     </div>
 
                     <div className="home-hero__visual">
                         <div className="home-card">
                             <div className="home-card__glow" />
+                            <div className="home-card__glow home-card__glow--second" />
+
+                            <div className="home-card__top">
+                                <span className="home-card__badge">HAYFIN</span>
+                                <span className="home-card__status">Արագ պատասխան</span>
+                            </div>
 
                             <div className="home-card__header">
-                                <span className="home-card__badge">HAYFIN</span>
                                 <h2>Քո ճկուն ֆինանսական գործընկերը</h2>
                                 <p>
-                                    Պարզ, արագ և վստահելի լուծումներ՝ քո ֆինանսական
-                                    կարիքների համար։
+                                    Հարմար լուծումներ անձնական և բիզնես նպատակների համար։
                                 </p>
+                            </div>
+
+                            <div className="home-card__metrics">
+                                <div className="metric-box">
+                                    <strong>4.000.000</strong>
+                                    <span>մինչև դրամ</span>
+                                </div>
+                                <div className="metric-box">
+                                    <strong>11%-ից</strong>
+                                    <span>սկսած</span>
+                                </div>
                             </div>
 
                             <div className="home-card__list">
                                 <div className="home-card__item">
                                     <div className="home-card__icon">₳</div>
                                     <div>
-                                        <strong>Ֆինանսավորում մինչև 4.000.000 դրամ</strong>
-                                        <p>Հարմար պայմաններով և հասկանալի գործընթացով</p>
+                                        <strong>Մեծ գումարի հասանելիություն</strong>
+                                        <p>Ֆինանսավորում՝ պարզ և հարմար պայմաններով</p>
                                     </div>
                                 </div>
 
                                 <div className="home-card__item">
                                     <div className="home-card__icon">%</div>
                                     <div>
-                                        <strong>Սկսած 11% տոկոսադրույքից</strong>
-                                        <p>Թափանցիկ և վստահելի պայմաններ յուրաքանչյուր հաճախորդի համար</p>
+                                        <strong>Թափանցիկ պայմաններ</strong>
+                                        <p>Հասկանալի տոկոսադրույք և վստահելի մոտեցում</p>
                                     </div>
                                 </div>
 
@@ -84,7 +93,7 @@ export default function Home() {
                                     <div className="home-card__icon">✓</div>
                                     <div>
                                         <strong>Արագ հաստատում</strong>
-                                        <p>Դիմումից մինչև պատասխան՝ հնարավորինս արագ</p>
+                                        <p>Պատասխան հնարավորինս սեղմ ժամկետում</p>
                                     </div>
                                 </div>
                             </div>
@@ -98,73 +107,16 @@ export default function Home() {
                         </div>
                     </div>
                 </section>
-
-                <section className="home-features">
-                    <div className="home-section-head">
-                        <span className="home-section-badge">Առավելություններ</span>
-                        <h2>Ինչո՞ւ ընտրել Hayfin</h2>
-                        <p>
-                            Մենք ստեղծել ենք պարզ և վստահելի համակարգ, որպեսզի ֆինանսավորում
-                            ստանալը լինի արագ, հարմար և հասկանալի։
-                        </p>
-                    </div>
-
-                    <div className="home-features__grid">
-                        <article className="feature-card">
-                            <div className="feature-card__icon">01</div>
-                            <h3>Պարզ գործընթաց</h3>
-                            <p>
-                                Դիմումը լրացվում է հեշտ և առանց բարդ քայլերի, որպեսզի
-                                խնայես քո ժամանակը։
-                            </p>
-                        </article>
-
-                        <article className="feature-card">
-                            <div className="feature-card__icon">02</div>
-                            <h3>Արագ պատասխան</h3>
-                            <p>
-                                Մենք գնահատում ենք արագությունը և աշխատում ենք հնարավորինս
-                                արագ տրամադրել պատասխան։
-                            </p>
-                        </article>
-
-                        <article className="feature-card">
-                            <div className="feature-card__icon">03</div>
-                            <h3>Վստահելի պայմաններ</h3>
-                            <p>
-                                Թափանցիկ և հասկանալի պայմաններ՝ առանց ավելորդ բարդությունների։
-                            </p>
-                        </article>
-                    </div>
-                </section>
-
-                <section className="home-offer">
-                    <div className="home-offer__content">
-                        <span className="home-section-badge">Hayfin</span>
-                        <h2>Ֆինանսական աջակցություն՝ այն պահին, երբ դրա կարիքն ունես</h2>
-                        <p>
-                            Անկախ նրանից՝ քեզ պետք է արագ լուծում անձնական կամ բիզնես
-                            նպատակների համար, Hayfin-ը պատրաստ է առաջարկել ճկուն և հարմար
-                            տարբերակներ։
-                        </p>
-                    </div>
-
-                    <div className="home-offer__box">
-                        <div className="offer-point">
-                            <strong>100.000 - 4.000.000 դրամ</strong>
-                            <span>Ֆինանսավորման չափ</span>
-                        </div>
-                        <div className="offer-point">
-                            <strong>11%-ից</strong>
-                            <span>Տարեկան տոկոսադրույք</span>
-                        </div>
-                        <div className="offer-point">
-                            <strong>077 882925</strong>
-                            <span>Կապի համար</span>
-                        </div>
-                    </div>
-                </section>
             </main>
+
+            <div className="mobile-sticky-bar">
+                <a href="tel:077882925" className="mobile-sticky-bar__call">
+                    Զանգահարել
+                </a>
+                <button className="mobile-sticky-bar__apply">
+                    Ստանալ առաջարկ
+                </button>
+            </div>
         </div>
     );
 }
