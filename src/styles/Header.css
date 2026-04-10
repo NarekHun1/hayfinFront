@@ -1,0 +1,206 @@
+.hayfin-header {
+    width: 100%;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    backdrop-filter: blur(14px);
+    background: rgba(255, 255, 255, 0.88);
+    border-bottom: 1px solid rgba(16, 185, 129, 0.12);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+}
+
+.hayfin-header__container {
+    width: min(1200px, calc(100% - 32px));
+    margin: 0 auto;
+    min-height: 84px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.hayfin-header__brand {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    text-decoration: none;
+}
+
+.hayfin-header__logo {
+    width: 58px;
+    height: 58px;
+    object-fit: contain;
+    border-radius: 14px;
+    background: #ffffff;
+    padding: 4px;
+    box-shadow: 0 8px 24px rgba(16, 185, 129, 0.18);
+}
+
+.hayfin-header__text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.1;
+}
+
+.hayfin-header__title {
+    font-size: 1.6rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    color: #111827;
+}
+
+.hayfin-header__subtitle {
+    margin-top: 4px;
+    font-size: 0.82rem;
+    color: #6b7280;
+    font-weight: 500;
+}
+
+.hayfin-header__nav {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+}
+
+.hayfin-header__nav a {
+    text-decoration: none;
+    color: #1f2937;
+    font-size: 0.98rem;
+    font-weight: 600;
+    position: relative;
+    transition: color 0.25s ease;
+}
+
+.hayfin-header__nav a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -7px;
+    width: 0%;
+    height: 2px;
+    background: linear-gradient(90deg, #10b981, #22c55e);
+    border-radius: 999px;
+    transition: width 0.25s ease;
+}
+
+.hayfin-header__nav a:hover {
+    color: #10b981;
+}
+
+.hayfin-header__nav a:hover::after {
+    width: 100%;
+}
+
+.hayfin-header__actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.hayfin-btn {
+    border: none;
+    outline: none;
+    cursor: pointer;
+    border-radius: 14px;
+    padding: 12px 18px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    transition: all 0.25s ease;
+}
+
+.hayfin-btn--ghost {
+    background: rgba(16, 185, 129, 0.08);
+    color: #059669;
+}
+
+.hayfin-btn--ghost:hover {
+    background: rgba(16, 185, 129, 0.14);
+    transform: translateY(-1px);
+}
+
+.hayfin-btn--primary {
+    background: linear-gradient(135deg, #10b981, #22c55e);
+    color: white;
+    box-shadow: 0 10px 24px rgba(16, 185, 129, 0.28);
+}
+
+.hayfin-btn--primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 30px rgba(16, 185, 129, 0.35);
+}
+
+.hayfin-header__menu {
+    display: none;
+    width: 48px;
+    height: 48px;
+    border: none;
+    background: rgba(16, 185, 129, 0.08);
+    border-radius: 12px;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+}
+
+.hayfin-header__menu span {
+    display: block;
+    width: 22px;
+    height: 2.5px;
+    background: #059669;
+    border-radius: 10px;
+}
+
+@media (max-width: 992px) {
+    .hayfin-header__nav,
+    .hayfin-header__actions {
+        display: none;
+    }
+
+    .hayfin-header__menu {
+        display: flex;
+    }
+
+    .hayfin-header__container {
+        min-height: 76px;
+    }
+
+    .hayfin-header__logo {
+        width: 50px;
+        height: 50px;
+    }
+
+    .hayfin-header__title {
+        font-size: 1.25rem;
+    }
+
+    .hayfin-header__subtitle {
+        font-size: 0.72rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .hayfin-header__container {
+        width: calc(100% - 20px);
+        gap: 10px;
+    }
+
+    .hayfin-header__brand {
+        gap: 10px;
+    }
+
+    .hayfin-header__logo {
+        width: 44px;
+        height: 44px;
+        border-radius: 12px;
+    }
+
+    .hayfin-header__title {
+        font-size: 1.05rem;
+        letter-spacing: 0.06em;
+    }
+
+    .hayfin-header__subtitle {
+        display: none;
+    }
+}
