@@ -34,6 +34,7 @@ export default function AdminLoginPage() {
 
         try {
             const data = await adminLogin(phone.trim(), password);
+            console.log('LOGIN RESPONSE:', data);
 
             if (!data?.token) {
                 throw new Error('Token not received');
@@ -45,8 +46,10 @@ export default function AdminLoginPage() {
 
             // сохраняем admin token
             setAdminToken(data.token);
-
+            console.log('admin_token after set:', localStorage.getItem('admin_token'));
+            console.log('token after set:', localStorage.getItem('token'));
             const user = getAdminUser();
+            console.log('PARSED ADMIN USER:', user);
 
             if (!isAdminAllowed(user)) {
                 removeAdminToken();
