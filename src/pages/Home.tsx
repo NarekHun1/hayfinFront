@@ -1,5 +1,5 @@
 import Header from './Header.tsx';
-import './Home.css';
+import '../styles/Home.css';
 
 export default function Home() {
     return (
