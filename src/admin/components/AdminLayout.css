@@ -368,3 +368,21 @@
         font-size: 1.7rem;
     }
 }
+.admin-phone-link {
+    color: #0f9d58;
+    font-weight: 600;
+    text-decoration: none;
+    transition: 0.2s ease;
+}
+
+.admin-phone-link:hover {
+    color: #087443;
+    text-decoration: underline;
+}
+
+.admin-empty-cell {
+    text-align: center;
+    padding: 24px 16px;
+    color: #6b7280;
+    font-size: 14px;
+}

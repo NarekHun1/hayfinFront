@@ -8,6 +8,15 @@ export interface AdminUser {
     iat?: number;
 }
 
+export interface DashboardUser {
+    id: number;
+    firstName: string;
+    lastName: string;
+    phone: string;
+    lastLoginAt?: string | null;
+    createdAt?: string;
+}
+
 export interface DashboardStats {
     totalApplications: number;
     newApplications: number;
@@ -16,6 +25,7 @@ export interface DashboardStats {
     rejectedApplications: number;
     totalUsers: number;
     latestApplications: LatestApplication[];
+    users?: DashboardUser[];
 }
 
 export interface LatestApplication {
