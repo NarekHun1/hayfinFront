@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
-import AdminLayout from '../admin/components /AdminLayout';
-import StatsCard from '../admin/components /StatsCard';
+import AdminLayout from '../admin/components/AdminLayout';
+import StatsCard from '../admin/components/StatsCard';
 import { adminFetch } from '../services/adminApi';
 import type { DashboardStats } from '../types/admin.types';
-import '../admin/components /AdminLayout.css';
+import '../admin/components/AdminLayout.css';
 
 export default function AdminDashboardPage() {
     const [data, setData] = useState<DashboardStats | null>(null);

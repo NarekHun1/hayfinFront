@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { adminLogin } from '../services/adminApi';
 import { getAdminUser, isAdminAllowed, setAdminToken } from '../utils/adminAuth';
-import '../admin/components /AdminLayout.css';
+import '../admin/components/AdminLayout.css';
 
 export default function AdminLoginPage() {
     const navigate = useNavigate();

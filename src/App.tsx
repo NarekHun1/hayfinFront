@@ -6,7 +6,7 @@ import Home from './pages/Home';
 
 import AdminLoginPage from './pages/AdminLoginPage';
 import AdminDashboardPage from './pages/AdminDashboardPage';
-import ProtectedAdminRoute from './admin/components /ProtectedAdminRoute';
+import ProtectedAdminRoute from './admin/components/ProtectedAdminRoute';
 
 export default function App() {
     const [token, setToken] = useState<string | null>(localStorage.getItem('token'));
