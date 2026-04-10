@@ -39,23 +39,23 @@ export default function AdminLoginPage() {
                 throw new Error('Token not received');
             }
 
-            // сохраняем токен
+            // ❗ УБИРАЕМ обычный user login
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+
+            // сохраняем admin token
             setAdminToken(data.token);
 
             const user = getAdminUser();
 
-            // ❗ если не админ → удаляем токен
             if (!isAdminAllowed(user)) {
                 removeAdminToken();
                 throw new Error('You do not have admin access');
             }
 
-            // ✅ нормальный редирект
             navigate('/admin/dashboard', { replace: true });
 
         } catch (err) {
-            console.error('ADMIN LOGIN ERROR:', err);
-
             setError(err instanceof Error ? err.message : 'Login failed');
         } finally {
             setLoading(false);

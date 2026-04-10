@@ -9,8 +9,12 @@ import AdminDashboardPage from './pages/AdminDashboardPage';
 import ProtectedAdminRoute from './admin/components/ProtectedAdminRoute';
 
 export default function App() {
-    const [userToken, setUserToken] = useState<string | null>(localStorage.getItem('token'));
-    const [adminToken, setAdminToken] = useState<string | null>(localStorage.getItem('admin_token'));
+    const [userToken, setUserToken] = useState<string | null>(
+        localStorage.getItem('token')
+    );
+    const [adminToken, setAdminToken] = useState<string | null>(
+        localStorage.getItem('admin_token')
+    );
 
     useEffect(() => {
         const syncAuth = () => {
@@ -34,9 +38,11 @@ export default function App() {
             <Route
                 path="/admin/login"
                 element={
-                    adminToken
-                        ? <Navigate to="/admin/dashboard" replace />
-                        : <AdminLoginPage />
+                    adminToken ? (
+                        <Navigate to="/admin/dashboard" replace />
+                    ) : (
+                        <AdminLoginPage />
+                    )
                 }
             />
 
@@ -50,16 +56,31 @@ export default function App() {
             />
 
             <Route
-                path="/"
-                element={userToken ? <Home /> : <Navigate to="/auth" replace />}
+                path="/auth"
+                element={
+                    userToken ? <Navigate to="/" replace /> : <AuthPage />
+                }
             />
 
             <Route
-                path="/auth"
-                element={!userToken ? <AuthPage /> : <Navigate to="/" replace />}
+                path="/"
+                element={
+                    userToken ? <Home /> : <Navigate to="/auth" replace />
+                }
             />
 
-            <Route path="*" element={<Navigate to="/" replace />} />
+            <Route
+                path="*"
+                element={
+                    adminToken ? (
+                        <Navigate to="/admin/dashboard" replace />
+                    ) : userToken ? (
+                        <Navigate to="/" replace />
+                    ) : (
+                        <Navigate to="/auth" replace />
+                    )
+                }
+            />
         </Routes>
     );
 }
