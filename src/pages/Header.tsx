@@ -1,4 +1,4 @@
-import './Header.css';
+import '../styles/Header.css';
 import logo from '../assets/hayfin-logo.png'; // замени путь если нужно
 
 export default function Header() {

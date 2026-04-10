@@ -1,4 +1,4 @@
-import Header from './Header.tsx';
+import Header from '../pages/Header.tsx';
 import '../styles/Home.css';
 
 export default function Home() {
