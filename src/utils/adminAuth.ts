@@ -33,11 +33,22 @@ export function removeAdminToken() {
 
 export function parseJwt(token: string): RawJwtPayload | null {
     try {
-        const payload = token.split('.')[1];
-        const base64 = payload.replace(/-/g, '+').replace(/_/g, '/');
-        const padded = base64.padEnd(base64.length + ((4 - (base64.length % 4)) % 4), '=');
-        const decoded = atob(padded);
+        const tokenParts = token.split('.');
 
+        if (tokenParts.length < 2) {
+            return null;
+        }
+
+        const base64 = tokenParts[1]
+            .replace(/-/g, '+')
+            .replace(/_/g, '/');
+
+        const padded = base64.padEnd(
+            base64.length + ((4 - (base64.length % 4)) % 4),
+            '=',
+        );
+
+        const decoded = atob(padded);
         return JSON.parse(decoded) as RawJwtPayload;
     } catch (error) {
         console.error('JWT parse error:', error);

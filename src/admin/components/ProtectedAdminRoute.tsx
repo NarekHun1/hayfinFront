@@ -1,5 +1,5 @@
 import { Navigate } from 'react-router-dom';
-import { getAdminUser, getAdminToken, isAdminAllowed } from '../../utils/adminAuth.ts';
+import { getAdminUser, getAdminToken, isAdminAllowed } from '../../utils/adminAuth';
 
 type Props = {
     children: React.ReactNode;

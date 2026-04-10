@@ -4,7 +4,7 @@ const API_URL = import.meta.env.VITE_API_URL;
 
 export async function adminFetch<T>(
     path: string,
-    options: RequestInit = {}
+    options: RequestInit = {},
 ): Promise<T> {
     const token = getAdminToken();
 
