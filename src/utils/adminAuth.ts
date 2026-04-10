@@ -18,10 +18,16 @@ export function removeAdminToken() {
 
 export function parseJwt(token: string): AdminUser | null {
     try {
-        const payload = token.split('.')[1];
-        const decoded = atob(payload.replace(/-/g, '+').replace(/_/g, '/'));
+        const base64 = token.split('.')[1]
+            .replace(/-/g, '+')
+            .replace(/_/g, '/');
+
+        const padded = base64.padEnd(base64.length + (4 - (base64.length % 4)) % 4, '=');
+        const decoded = atob(padded);
+
         return JSON.parse(decoded);
-    } catch {
+    } catch (error) {
+        console.error('JWT parse error:', error);
         return null;
     }
 }
