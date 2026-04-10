@@ -40,6 +40,7 @@ export default function AdminLoginPage() {
 
             localStorage.removeItem('token');
             localStorage.removeItem('user');
+            window.dispatchEvent(new Event('auth-changed'));
 
             setAdminToken(data.token);
 
