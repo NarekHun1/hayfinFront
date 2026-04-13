@@ -1,0 +1,438 @@
+/* =========================================================
+   APPLICATION PAGE — PREMIUM FINTECH STYLE
+   под текущий ApplicationPage.tsx
+   ========================================================= */
+
+:root {
+    --app-bg-1: #07111f;
+    --app-bg-2: #0d1728;
+    --app-card: rgba(13, 22, 38, 0.82);
+    --app-card-border: rgba(255, 255, 255, 0.08);
+    --app-field: rgba(255, 255, 255, 0.05);
+    --app-field-hover: rgba(255, 255, 255, 0.08);
+    --app-text: #f5f7fb;
+    --app-muted: #9aa7bd;
+    --app-line: rgba(255, 255, 255, 0.08);
+    --app-green: #1fbe6b;
+    --app-green-2: #2fe08a;
+    --app-red: #ff6b6b;
+    --app-shadow: 0 24px 80px rgba(0, 0, 0, 0.45);
+    --app-radius-xl: 28px;
+    --app-radius-lg: 18px;
+    --app-radius-md: 14px;
+    --app-radius-sm: 12px;
+}
+
+/* page */
+.application-page {
+    min-height: 100vh;
+    background:
+            radial-gradient(circle at top left, rgba(47, 224, 138, 0.12), transparent 28%),
+            radial-gradient(circle at top right, rgba(59, 130, 246, 0.12), transparent 28%),
+            linear-gradient(180deg, var(--app-bg-1) 0%, var(--app-bg-2) 100%);
+    color: var(--app-text);
+}
+
+/* main */
+.application-main {
+    width: min(1180px, calc(100% - 32px));
+    margin: 0 auto;
+    padding: 36px 0 90px;
+}
+
+/* card */
+.application-card {
+    position: relative;
+    overflow: hidden;
+    background: var(--app-card);
+    border: 1px solid var(--app-card-border);
+    border-radius: var(--app-radius-xl);
+    padding: 34px;
+    box-shadow: var(--app-shadow);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+}
+
+.application-card::before,
+.application-card::after {
+    content: "";
+    position: absolute;
+    inset: auto;
+    border-radius: 999px;
+    pointer-events: none;
+    filter: blur(40px);
+    opacity: 0.8;
+}
+
+.application-card::before {
+    top: -60px;
+    right: -40px;
+    width: 220px;
+    height: 220px;
+    background: rgba(47, 224, 138, 0.13);
+}
+
+.application-card::after {
+    bottom: -80px;
+    left: -50px;
+    width: 260px;
+    height: 260px;
+    background: rgba(59, 130, 246, 0.12);
+}
+
+/* head */
+.application-head {
+    position: relative;
+    z-index: 1;
+    margin-bottom: 26px;
+}
+
+.application-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 34px;
+    padding: 0 14px;
+    border-radius: 999px;
+    background: rgba(47, 224, 138, 0.1);
+    border: 1px solid rgba(47, 224, 138, 0.16);
+    color: #b8f7d5;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+}
+
+.application-head h1 {
+    margin: 0 0 10px;
+    font-size: clamp(28px, 4vw, 42px);
+    line-height: 1.05;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    color: #ffffff;
+}
+
+.application-head p {
+    margin: 0;
+    max-width: 720px;
+    color: var(--app-muted);
+    font-size: 15px;
+    line-height: 1.7;
+}
+
+/* form */
+.application-form {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+}
+
+/* grid */
+.application-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+}
+
+/* field */
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.field label {
+    color: #d6deec;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+}
+
+.field input,
+.field select,
+.field textarea {
+    width: 100%;
+    border: 1px solid transparent;
+    outline: none;
+    border-radius: var(--app-radius-md);
+    background: var(--app-field);
+    color: var(--app-text);
+    padding: 15px 16px;
+    font-size: 15px;
+    line-height: 1.4;
+    transition:
+            border-color 0.2s ease,
+            background 0.2s ease,
+            box-shadow 0.2s ease,
+            transform 0.2s ease;
+    box-sizing: border-box;
+}
+
+.field input::placeholder,
+.field textarea::placeholder {
+    color: #7f8ca3;
+}
+
+.field input:hover,
+.field select:hover,
+.field textarea:hover {
+    background: var(--app-field-hover);
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+    border-color: rgba(47, 224, 138, 0.65);
+    background: rgba(255, 255, 255, 0.075);
+    box-shadow: 0 0 0 4px rgba(47, 224, 138, 0.12);
+    transform: translateY(-1px);
+}
+
+.field textarea {
+    min-height: 130px;
+    resize: vertical;
+}
+
+/* select arrow consistency */
+.field select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image:
+            linear-gradient(45deg, transparent 50%, #aab6ca 50%),
+            linear-gradient(135deg, #aab6ca 50%, transparent 50%);
+    background-position:
+            calc(100% - 18px) calc(50% - 3px),
+            calc(100% - 12px) calc(50% - 3px);
+    background-size: 6px 6px, 6px 6px;
+    background-repeat: no-repeat;
+    padding-right: 40px;
+}
+
+/* number inputs */
+.field input[type="number"]::-webkit-outer-spin-button,
+.field input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.field input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+/* checkbox grid */
+.checkbox-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.check-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 16px 16px;
+    border-radius: var(--app-radius-md);
+    border: 1px solid var(--app-line);
+    background: rgba(255, 255, 255, 0.035);
+    transition:
+            border-color 0.2s ease,
+            background 0.2s ease,
+            transform 0.2s ease,
+            box-shadow 0.2s ease;
+    cursor: pointer;
+}
+
+.check-item:hover {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(47, 224, 138, 0.22);
+    transform: translateY(-1px);
+}
+
+.check-item input {
+    margin: 2px 0 0;
+    width: 18px;
+    height: 18px;
+    accent-color: var(--app-green);
+    flex-shrink: 0;
+}
+
+.check-item span {
+    color: #eaf0fb;
+    font-size: 14px;
+    line-height: 1.45;
+}
+
+/* success/error */
+.form-success,
+.form-error {
+    border-radius: var(--app-radius-md);
+    padding: 15px 16px;
+    font-size: 14px;
+    line-height: 1.5;
+    font-weight: 600;
+    border: 1px solid transparent;
+}
+
+.form-success {
+    color: #b9f8d6;
+    background: rgba(31, 190, 107, 0.14);
+    border-color: rgba(31, 190, 107, 0.24);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+.form-error {
+    color: #ffd2d2;
+    background: rgba(255, 107, 107, 0.12);
+    border-color: rgba(255, 107, 107, 0.22);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+/* submit */
+.application-submit {
+    position: relative;
+    width: 100%;
+    min-height: 56px;
+    border: none;
+    outline: none;
+    border-radius: 16px;
+    padding: 16px 22px;
+    background: linear-gradient(135deg, var(--app-green) 0%, var(--app-green-2) 100%);
+    color: #04140c;
+    font-size: 15px;
+    font-weight: 800;
+    letter-spacing: 0.01em;
+    cursor: pointer;
+    transition:
+            transform 0.2s ease,
+            box-shadow 0.2s ease,
+            opacity 0.2s ease,
+            filter 0.2s ease;
+    box-shadow:
+            0 18px 40px rgba(31, 190, 107, 0.22),
+            inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.application-submit:hover {
+    transform: translateY(-2px);
+    box-shadow:
+            0 24px 50px rgba(31, 190, 107, 0.28),
+            inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    filter: brightness(1.03);
+}
+
+.application-submit:active {
+    transform: translateY(0);
+}
+
+.application-submit:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
+    filter: grayscale(0.08);
+}
+
+/* a little spacing for full-width comment field */
+.application-form > .field:last-of-type {
+    margin-top: -2px;
+}
+
+/* tablet */
+@media (max-width: 960px) {
+    .application-main {
+        width: min(100% - 24px, 1000px);
+        padding: 24px 0 84px;
+    }
+
+    .application-card {
+        padding: 24px;
+        border-radius: 24px;
+    }
+
+    .application-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .checkbox-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* mobile */
+@media (max-width: 640px) {
+    .application-main {
+        width: calc(100% - 16px);
+        padding: 16px 0 92px;
+    }
+
+    .application-card {
+        padding: 18px;
+        border-radius: 20px;
+    }
+
+    .application-badge {
+        min-height: 30px;
+        padding: 0 12px;
+        font-size: 11px;
+        letter-spacing: 0.12em;
+        margin-bottom: 12px;
+    }
+
+    .application-head {
+        margin-bottom: 20px;
+    }
+
+    .application-head h1 {
+        font-size: 28px;
+    }
+
+    .application-head p {
+        font-size: 14px;
+        line-height: 1.6;
+    }
+
+    .application-form {
+        gap: 18px;
+    }
+
+    .application-grid,
+    .checkbox-grid {
+        gap: 12px;
+    }
+
+    .field label {
+        font-size: 12px;
+    }
+
+    .field input,
+    .field select,
+    .field textarea {
+        min-height: 50px;
+        padding: 14px;
+        font-size: 14px;
+        border-radius: 12px;
+    }
+
+    .field textarea {
+        min-height: 110px;
+    }
+
+    .check-item {
+        padding: 14px;
+        gap: 10px;
+        border-radius: 12px;
+    }
+
+    .check-item span {
+        font-size: 13px;
+    }
+
+    .application-submit {
+        min-height: 54px;
+        border-radius: 14px;
+        font-size: 14px;
+    }
+}
