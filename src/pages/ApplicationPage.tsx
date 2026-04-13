@@ -59,10 +59,10 @@ export default function ApplicationPage() {
 
             const result = await createApplication(payload);
 
-            setSuccess(`Заявка успешно отправлена. ID: ${result.id}`);
+            setSuccess(`Հայտը հաջողությամբ ուղարկվել է։ ID: ${result.id}`);
             setForm(initialState);
         } catch (err) {
-            setError(err instanceof Error ? err.message : 'Не удалось отправить заявку');
+            setError(err instanceof Error ? err.message : 'Չհաջողվեց ուղարկել հայտը');
         } finally {
             setLoading(false);
         }
@@ -76,14 +76,14 @@ export default function ApplicationPage() {
                 <div className="application-card">
                     <div className="application-head">
                         <span className="application-badge">HAYFIN</span>
-                        <h1>Оформить заявку</h1>
-                        <p>Заполните данные и отправьте заявку на рассмотрение.</p>
+                        <h1>Հայտի ձևակերպում</h1>
+                        <p>Լրացրեք տվյալները և ուղարկեք հայտը դիտարկման համար։</p>
                     </div>
 
                     <form className="application-form" onSubmit={handleSubmit}>
                         <div className="application-grid">
                             <div className="field">
-                                <label>ФИО</label>
+                                <label>Անուն Ազգանուն</label>
                                 <input
                                     value={form.fullName}
                                     onChange={(e) => setField('fullName', e.target.value)}
@@ -92,7 +92,7 @@ export default function ApplicationPage() {
                             </div>
 
                             <div className="field">
-                                <label>Телефон</label>
+                                <label>Հեռախոս</label>
                                 <input
                                     value={form.phone}
                                     onChange={(e) => setField('phone', e.target.value)}
@@ -101,7 +101,7 @@ export default function ApplicationPage() {
                             </div>
 
                             <div className="field">
-                                <label>Сумма</label>
+                                <label>Գումար</label>
                                 <input
                                     type="number"
                                     value={form.amount}
@@ -111,7 +111,7 @@ export default function ApplicationPage() {
                             </div>
 
                             <div className="field">
-                                <label>Срок (месяцев)</label>
+                                <label>Ժամկետ (ամիս)</label>
                                 <input
                                     type="number"
                                     value={form.termMonths}
@@ -121,7 +121,7 @@ export default function ApplicationPage() {
                             </div>
 
                             <div className="field">
-                                <label>Доход в месяц</label>
+                                <label>Ամսական եկամուտ</label>
                                 <input
                                     type="number"
                                     value={form.monthlyIncome ?? 0}
@@ -130,7 +130,7 @@ export default function ApplicationPage() {
                             </div>
 
                             <div className="field">
-                                <label>Место работы</label>
+                                <label>Աշխատավայր</label>
                                 <input
                                     value={form.workplace ?? ''}
                                     onChange={(e) => setField('workplace', e.target.value)}
@@ -138,7 +138,7 @@ export default function ApplicationPage() {
                             </div>
 
                             <div className="field">
-                                <label>Цель кредита</label>
+                                <label>Վարկի նպատակ</label>
                                 <input
                                     value={form.loanPurpose ?? ''}
                                     onChange={(e) => setField('loanPurpose', e.target.value)}
@@ -146,23 +146,23 @@ export default function ApplicationPage() {
                             </div>
 
                             <div className="field">
-                                <label>Статус занятости</label>
+                                <label>Զբաղվածության կարգավիճակ</label>
                                 <select
                                     value={form.employmentStatus}
                                     onChange={(e) =>
                                         setField('employmentStatus', e.target.value as EmploymentStatus)
                                     }
                                 >
-                                    <option value="EMPLOYED">EMPLOYED</option>
-                                    <option value="SELF_EMPLOYED">SELF_EMPLOYED</option>
-                                    <option value="UNEMPLOYED">UNEMPLOYED</option>
-                                    <option value="STUDENT">STUDENT</option>
-                                    <option value="PENSIONER">PENSIONER</option>
+                                    <option value="EMPLOYED">Աշխատող</option>
+                                    <option value="SELF_EMPLOYED">Ինքնազբաղված</option>
+                                    <option value="UNEMPLOYED">Գործազուրկ</option>
+                                    <option value="STUDENT">Ուսանող</option>
+                                    <option value="PENSIONER">Թոշակառու</option>
                                 </select>
                             </div>
 
                             <div className="field">
-                                <label>Стаж (лет)</label>
+                                <label>Աշխատանքային ստաժ (տարի)</label>
                                 <input
                                     type="number"
                                     value={form.jobYears ?? 0}
@@ -171,7 +171,7 @@ export default function ApplicationPage() {
                             </div>
 
                             <div className="field">
-                                <label>Ежемесячный платеж по другим кредитам</label>
+                                <label>Այլ վարկերի ամսական վճար</label>
                                 <input
                                     type="number"
                                     value={form.activeLoanMonthlyPay ?? 0}
@@ -189,7 +189,7 @@ export default function ApplicationPage() {
                                     checked={!!form.hasActiveLoans}
                                     onChange={(e) => setField('hasActiveLoans', e.target.checked)}
                                 />
-                                <span>Есть активные кредиты</span>
+                                <span>Կան ակտիվ վարկեր</span>
                             </label>
 
                             <label className="check-item">
@@ -198,7 +198,7 @@ export default function ApplicationPage() {
                                     checked={!!form.hasOverdueNow}
                                     onChange={(e) => setField('hasOverdueNow', e.target.checked)}
                                 />
-                                <span>Есть текущая просрочка</span>
+                                <span>Կա ընթացիկ ուշացում</span>
                             </label>
 
                             <label className="check-item">
@@ -207,7 +207,7 @@ export default function ApplicationPage() {
                                     checked={!!form.wasBlacklistedBefore}
                                     onChange={(e) => setField('wasBlacklistedBefore', e.target.checked)}
                                 />
-                                <span>Был в black list раньше</span>
+                                <span>Նախկինում եղել է սև ցուցակում</span>
                             </label>
 
                             <label className="check-item">
@@ -216,7 +216,7 @@ export default function ApplicationPage() {
                                     checked={!!form.isBlacklistedNow}
                                     onChange={(e) => setField('isBlacklistedNow', e.target.checked)}
                                 />
-                                <span>Сейчас в black list</span>
+                                <span>Հիմա գտնվում է սև ցուցակում</span>
                             </label>
 
                             <label className="check-item">
@@ -225,13 +225,13 @@ export default function ApplicationPage() {
                                     checked={!!form.hadDelaysBefore}
                                     onChange={(e) => setField('hadDelaysBefore', e.target.checked)}
                                 />
-                                <span>Были просрочки раньше</span>
+                                <span>Նախկինում եղել են ուշացումներ</span>
                             </label>
                         </div>
 
                         {form.hadDelaysBefore && (
                             <div className="field">
-                                <label>Сколько месяцев прошло с последней просрочки</label>
+                                <label>Քանի ամիս է անցել վերջին ուշացումից</label>
                                 <input
                                     type="number"
                                     value={form.monthsSinceLastDelay ?? 0}
@@ -243,7 +243,7 @@ export default function ApplicationPage() {
                         )}
 
                         <div className="field">
-                            <label>Комментарий</label>
+                            <label>Մեկնաբանություն</label>
                             <textarea
                                 rows={4}
                                 value={form.comment ?? ''}
@@ -255,7 +255,7 @@ export default function ApplicationPage() {
                         {error && <div className="form-error">{error}</div>}
 
                         <button className="application-submit" type="submit" disabled={loading}>
-                            {loading ? 'Отправка...' : 'Отправить заявку'}
+                            {loading ? 'Ուղարկվում է...' : 'Ուղարկել հայտ'}
                         </button>
                     </form>
                 </div>
