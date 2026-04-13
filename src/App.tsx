@@ -7,6 +7,9 @@ import Home from './pages/Home';
 import AdminLoginPage from './pages/AdminLoginPage';
 import AdminDashboardPage from './pages/AdminDashboardPage';
 import ProtectedAdminRoute from './admin/components/ProtectedAdminRoute';
+import ApplicationPage from './pages/ApplicationPage';
+import AdminApplicationsPage from './pages/AdminApplicationsPage';
+import AdminApplicationDetailsPage from './pages/AdminApplicationDetailsPage';
 
 export default function App() {
     const [userToken, setUserToken] = useState<string | null>(localStorage.getItem('token'));
@@ -35,7 +38,25 @@ export default function App() {
                 path="/auth"
                 element={userToken ? <Navigate to="/" replace /> : <AuthPage />}
             />
+            <Route path="/apply" element={<ApplicationPage />} />
 
+            <Route
+                path="/admin/applications"
+                element={
+                    <ProtectedAdminRoute>
+                        <AdminApplicationsPage />
+                    </ProtectedAdminRoute>
+                }
+            />
+
+            <Route
+                path="/admin/applications/:id"
+                element={
+                    <ProtectedAdminRoute>
+                        <AdminApplicationDetailsPage />
+                    </ProtectedAdminRoute>
+                }
+            />
             <Route
                 path="/"
                 element={userToken ? <Home /> : <Navigate to="/auth" replace />}
