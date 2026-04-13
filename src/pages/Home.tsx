@@ -7,7 +7,7 @@ export default function Home() {
     const navigate = useNavigate();
 
     const handleOpenApplication = () => {
-        navigate('/application');
+        navigate('/apply');
     };
 
     return (
