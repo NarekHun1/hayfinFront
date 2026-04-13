@@ -1,8 +1,14 @@
 import Header from './Header';
 import '../styles/Home.css';
+import { useNavigate } from 'react-router-dom';
 
 export default function Home() {
     const user = JSON.parse(localStorage.getItem('user') || 'null');
+    const navigate = useNavigate();
+
+    const handleOpenApplication = () => {
+        navigate('/application');
+    };
 
     return (
         <div className="home-page">
@@ -31,12 +37,20 @@ export default function Home() {
                         </div>
 
                         <div className="home-actions">
-                            <button className="home-btn home-btn--primary">
+                            <button
+                                className="home-btn home-btn--primary"
+                                onClick={handleOpenApplication}
+                                type="button"
+                            >
                                 Ստանալ առաջարկ
                             </button>
-                            <button className="home-btn home-btn--secondary">
+
+                            <a
+                                className="home-btn home-btn--secondary"
+                                href="tel:077882925"
+                            >
                                 Զանգահարել հիմա
-                            </button>
+                            </a>
                         </div>
 
                         <a className="home-phone-inline" href="tel:077882925">
@@ -113,7 +127,11 @@ export default function Home() {
                 <a href="tel:077882925" className="mobile-sticky-bar__call">
                     Զանգահարել
                 </a>
-                <button className="mobile-sticky-bar__apply">
+                <button
+                    className="mobile-sticky-bar__apply"
+                    onClick={handleOpenApplication}
+                    type="button"
+                >
                     Ստանալ առաջարկ
                 </button>
             </div>
