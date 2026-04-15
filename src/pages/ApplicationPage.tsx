@@ -157,14 +157,6 @@ export default function ApplicationPage() {
                             </div>
 
                             <div className="field">
-                                <label>Վարկի նպատակ</label>
-                                <input
-                                    value={form.loanPurpose ?? ''}
-                                    onChange={(e) => setField('loanPurpose', e.target.value)}
-                                />
-                            </div>
-
-                            <div className="field">
                                 <label>Զբաղվածության կարգավիճակ</label>
                                 <select
                                     value={form.employmentStatus}
