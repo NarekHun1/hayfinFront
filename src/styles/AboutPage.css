@@ -1,0 +1,135 @@
+.about-page {
+    min-height: 100vh;
+    background:
+            radial-gradient(circle at 15% 10%, rgba(16,185,129,0.12), transparent),
+            radial-gradient(circle at 85% 20%, rgba(59,130,246,0.1), transparent),
+            #f8fafc;
+}
+
+.container {
+    width: min(1200px, calc(100% - 32px));
+    margin: 0 auto;
+}
+
+/* HERO */
+.about-hero {
+    padding: 120px 0 80px;
+    text-align: center;
+    position: relative;
+    background: linear-gradient(135deg, #0f172a, #1e293b);
+    color: white;
+}
+
+.about-hero__glow {
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    background: rgba(16,185,129,0.3);
+    filter: blur(80px);
+    left: 50%;
+    transform: translateX(-50%);
+    top: 20px;
+}
+
+.about-hero h1 {
+    font-size: 52px;
+    font-weight: 900;
+    margin-bottom: 20px;
+}
+
+.about-hero p {
+    max-width: 700px;
+    margin: 0 auto;
+    color: rgba(255,255,255,0.8);
+}
+
+/* SECTION */
+.about-section {
+    padding: 80px 0;
+}
+
+.about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+}
+
+.about-text h2 {
+    font-size: 32px;
+    margin-bottom: 16px;
+}
+
+.about-text p {
+    color: #475569;
+    margin-bottom: 12px;
+}
+
+.about-card {
+    background: white;
+    padding: 30px;
+    border-radius: 24px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.08);
+    text-align: center;
+}
+
+.about-card svg {
+    font-size: 40px;
+    color: #10b981;
+}
+
+/* VALUES */
+.about-values {
+    padding: 80px 0;
+    text-align: center;
+}
+
+.values-grid {
+    margin-top: 30px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+}
+
+.value-card {
+    background: white;
+    padding: 28px;
+    border-radius: 20px;
+    transition: 0.3s;
+}
+
+.value-card:hover {
+    transform: translateY(-8px);
+}
+
+.value-card svg {
+    font-size: 32px;
+    color: #10b981;
+}
+
+/* CTA */
+.about-cta {
+    padding: 80px 0;
+    text-align: center;
+}
+
+.about-btn {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 14px 28px;
+    background: #10b981;
+    color: white;
+    border-radius: 14px;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+/* MOBILE */
+@media (max-width: 900px) {
+    .about-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .values-grid {
+        grid-template-columns: 1fr;
+    }
+}
