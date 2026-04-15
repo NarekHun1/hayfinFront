@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+
 import '../styles/Header.css';
 import hayfin from '../assets/hayfin.png';
 
@@ -34,9 +36,16 @@ export default function Header() {
 
     return (
         <>
+            {/* HEADER */}
             <header className="hayfin-header">
                 <div className="hayfin-header__container">
-                    <a href="/" className="hayfin-header__brand" onClick={closeMenu}>
+
+                    {/* LOGO */}
+                    <Link
+                        to="/"
+                        className="hayfin-header__brand"
+                        onClick={closeMenu}
+                    >
                         <img
                             src={hayfin}
                             alt="Hayfin Logo"
@@ -49,16 +58,21 @@ export default function Header() {
                                 Քո ճկուն ֆինանսական գործընկերը
                             </span>
                         </div>
-                    </a>
+                    </Link>
 
+                    {/* DESKTOP NAV */}
                     <nav className="hayfin-header__nav">
-                        <a href="#about">Մեր մասին</a>
-                        <a href="#services">Ծառայություններ</a>
-                        <a href="#contact">Կապ</a>
+                        <Link to="/about">Մեր մասին</Link>
+                        <Link to="/services">Ծառայություններ</Link>
+                        <Link to="/contact">Կապ</Link>
                     </nav>
 
+                    {/* ACTIONS */}
                     <div className="hayfin-header__actions">
-                        <a href="tel:077882925" className="hayfin-btn hayfin-btn--ghost">
+                        <a
+                            href="tel:077882925"
+                            className="hayfin-btn hayfin-btn--ghost"
+                        >
                             077 882925
                         </a>
 
@@ -71,6 +85,7 @@ export default function Header() {
                         </button>
                     </div>
 
+                    {/* BURGER */}
                     <button
                         className={`hayfin-header__menu ${menuOpen ? 'is-active' : ''}`}
                         type="button"
@@ -85,11 +100,15 @@ export default function Header() {
                 </div>
             </header>
 
+            {/* BACKDROP */}
             <div
-                className={`hayfin-mobile-menu-backdrop ${menuOpen ? 'is-visible' : ''}`}
+                className={`hayfin-mobile-menu-backdrop ${
+                    menuOpen ? 'is-visible' : ''
+                }`}
                 onClick={closeMenu}
             />
 
+            {/* MOBILE MENU */}
             <aside className={`hayfin-mobile-menu ${menuOpen ? 'is-open' : ''}`}>
                 <div className="hayfin-mobile-menu__top">
                     <div className="hayfin-mobile-menu__brand">
@@ -116,18 +135,20 @@ export default function Header() {
                     </button>
                 </div>
 
+                {/* MOBILE LINKS */}
                 <div className="hayfin-mobile-menu__links">
-                    <a href="#about" onClick={closeMenu}>
+                    <Link to="/about" onClick={closeMenu}>
                         Մեր մասին
-                    </a>
-                    <a href="#services" onClick={closeMenu}>
+                    </Link>
+                    <Link to="/services" onClick={closeMenu}>
                         Ծառայություններ
-                    </a>
-                    <a href="#contact" onClick={closeMenu}>
+                    </Link>
+                    <Link to="/contact" onClick={closeMenu}>
                         Կապ
-                    </a>
+                    </Link>
                 </div>
 
+                {/* FOOTER */}
                 <div className="hayfin-mobile-menu__footer">
                     <a
                         href="tel:077882925"
