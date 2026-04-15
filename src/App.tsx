@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 
+import Header from './pages/Header';
+
 import AuthPage from './pages/AuthPage';
 import Home from './pages/Home';
 
@@ -37,53 +39,67 @@ export default function App() {
     }, []);
 
     return (
-        <Routes>
-            <Route
-                path="/auth"
-                element={userToken ? <Navigate to="/" replace /> : <AuthPage />}
-            />
+        <>
+            {/* HEADER НА ВСЕХ СТРАНИЦАХ */}
+            {userToken && <Header />}
 
-            <Route path="/apply" element={<ApplicationPage />} />
-            <Route path="/about" element={<AboutPage />} />
-            <Route path="/services" element={<ServicesPage />} />
-            <Route path="/contact" element={<ContactPage />} />
+            <Routes>
+                <Route
+                    path="/auth"
+                    element={userToken ? <Navigate to="/" replace /> : <AuthPage />}
+                />
 
-            <Route
-                path="/admin/applications"
-                element={
-                    <ProtectedAdminRoute>
-                        <AdminApplicationsPage />
-                    </ProtectedAdminRoute>
-                }
-            />
+                <Route path="/apply" element={<ApplicationPage />} />
 
-            <Route
-                path="/admin/applications/:id"
-                element={
-                    <ProtectedAdminRoute>
-                        <AdminApplicationDetailsPage />
-                    </ProtectedAdminRoute>
-                }
-            />
+                {/* НОВЫЕ СТРАНИЦЫ */}
+                <Route path="/about" element={<AboutPage />} />
+                <Route path="/services" element={<ServicesPage />} />
+                <Route path="/contact" element={<ContactPage />} />
 
-            <Route
-                path="/"
-                element={userToken ? <Home /> : <Navigate to="/auth" replace />}
-            />
+                {/* ADMIN */}
+                <Route
+                    path="/admin/applications"
+                    element={
+                        <ProtectedAdminRoute>
+                            <AdminApplicationsPage />
+                        </ProtectedAdminRoute>
+                    }
+                />
 
-            <Route
-                path="/admin/login"
-                element={adminToken ? <Navigate to="/admin/dashboard" replace /> : <AdminLoginPage />}
-            />
+                <Route
+                    path="/admin/applications/:id"
+                    element={
+                        <ProtectedAdminRoute>
+                            <AdminApplicationDetailsPage />
+                        </ProtectedAdminRoute>
+                    }
+                />
 
-            <Route
-                path="/admin/dashboard"
-                element={
-                    <ProtectedAdminRoute>
-                        <AdminDashboardPage />
-                    </ProtectedAdminRoute>
-                }
-            />
-        </Routes>
+                <Route
+                    path="/"
+                    element={userToken ? <Home /> : <Navigate to="/auth" replace />}
+                />
+
+                <Route
+                    path="/admin/login"
+                    element={
+                        adminToken ? (
+                            <Navigate to="/admin/dashboard" replace />
+                        ) : (
+                            <AdminLoginPage />
+                        )
+                    }
+                />
+
+                <Route
+                    path="/admin/dashboard"
+                    element={
+                        <ProtectedAdminRoute>
+                            <AdminDashboardPage />
+                        </ProtectedAdminRoute>
+                    }
+                />
+            </Routes>
+        </>
     );
 }
