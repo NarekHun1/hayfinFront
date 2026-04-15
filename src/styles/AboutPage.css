@@ -1,9 +1,9 @@
 .about-page {
     min-height: 100vh;
     background:
-            radial-gradient(circle at 15% 10%, rgba(16,185,129,0.12), transparent),
-            radial-gradient(circle at 85% 20%, rgba(59,130,246,0.1), transparent),
-            #f8fafc;
+            radial-gradient(circle at 12% 10%, rgba(16, 185, 129, 0.08), transparent 26%),
+            radial-gradient(circle at 88% 14%, rgba(59, 130, 246, 0.08), transparent 24%),
+            linear-gradient(180deg, #f8fafc 0%, #f4f7fb 52%, #ffffff 100%);
 }
 
 .container {
@@ -13,123 +13,428 @@
 
 /* HERO */
 .about-hero {
-    padding: 120px 0 80px;
-    text-align: center;
     position: relative;
-    background: linear-gradient(135deg, #0f172a, #1e293b);
-    color: white;
+    overflow: hidden;
+    padding: 130px 0 88px;
+    text-align: center;
+    background: linear-gradient(135deg, #0f172a 0%, #111827 52%, #052e2b 100%);
+    border-bottom-left-radius: 38px;
+    border-bottom-right-radius: 38px;
+}
+
+.about-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+            radial-gradient(circle at 50% 18%, rgba(16, 185, 129, 0.24), transparent 24%),
+            radial-gradient(circle at 20% 24%, rgba(255, 255, 255, 0.08), transparent 20%),
+            radial-gradient(circle at 84% 18%, rgba(59, 130, 246, 0.12), transparent 18%);
+    pointer-events: none;
+}
+
+.about-hero .container {
+    position: relative;
+    z-index: 2;
 }
 
 .about-hero__glow {
     position: absolute;
-    width: 300px;
-    height: 300px;
-    background: rgba(16,185,129,0.3);
-    filter: blur(80px);
+    top: 14px;
     left: 50%;
+    width: 340px;
+    height: 340px;
+    border-radius: 999px;
     transform: translateX(-50%);
-    top: 20px;
+    background: rgba(255, 255, 255, 0.08);
+    filter: blur(95px);
+    pointer-events: none;
+    animation: aboutGlow 7s ease-in-out infinite;
 }
 
 .about-hero h1 {
-    font-size: 52px;
+    margin: 0 auto 18px;
+    max-width: 980px;
+    font-size: clamp(34px, 6vw, 62px);
+    line-height: 1.04;
     font-weight: 900;
-    margin-bottom: 20px;
+    letter-spacing: -0.03em;
+    color: #ffffff;
+    text-shadow: 0 10px 28px rgba(0, 0, 0, 0.28);
 }
 
 .about-hero p {
-    max-width: 700px;
     margin: 0 auto;
-    color: rgba(255,255,255,0.8);
+    max-width: 760px;
+    font-size: 18px;
+    line-height: 1.8;
+    color: rgba(255, 255, 255, 0.82);
 }
 
-/* SECTION */
+/* MISSION SECTION */
 .about-section {
-    padding: 80px 0;
+    padding: 58px 0 30px;
 }
 
 .about-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 40px;
+    grid-template-columns: minmax(0, 1.1fr) minmax(320px, 0.9fr);
+    gap: 28px;
+    align-items: stretch;
+}
+
+.about-text {
+    padding: 34px;
+    border-radius: 30px;
+    background: rgba(255, 255, 255, 0.94);
+    border: 1px solid rgba(15, 23, 42, 0.05);
+    box-shadow:
+            0 18px 44px rgba(15, 23, 42, 0.07),
+            0 2px 10px rgba(15, 23, 42, 0.03);
+    animation: aboutFadeUp 0.75s ease both;
 }
 
 .about-text h2 {
-    font-size: 32px;
-    margin-bottom: 16px;
+    margin: 0 0 18px;
+    font-size: clamp(28px, 4vw, 40px);
+    line-height: 1.1;
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    color: #0f172a;
 }
 
 .about-text p {
-    color: #475569;
-    margin-bottom: 12px;
+    margin: 0 0 14px;
+    font-size: 17px;
+    line-height: 1.85;
+    color: #334155;
+}
+
+.about-text p:last-child {
+    margin-bottom: 0;
 }
 
 .about-card {
-    background: white;
-    padding: 30px;
-    border-radius: 24px;
-    box-shadow: 0 20px 50px rgba(0,0,0,0.08);
+    position: relative;
+    overflow: hidden;
+    padding: 34px 28px;
+    border-radius: 30px;
+    background: #ffffff;
+    border: 1px solid rgba(15, 23, 42, 0.05);
+    box-shadow:
+            0 20px 50px rgba(15, 23, 42, 0.08),
+            0 4px 16px rgba(15, 23, 42, 0.04);
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    animation: aboutFadeUp 0.9s ease both;
+}
+
+.about-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+            180deg,
+            rgba(16, 185, 129, 0.05) 0%,
+            rgba(255, 255, 255, 0) 45%
+    );
+    pointer-events: none;
+}
+
+.about-card:hover {
+    transform: translateY(-8px);
+    transition: transform 0.35s ease, box-shadow 0.35s ease;
+    box-shadow:
+            0 28px 60px rgba(16, 185, 129, 0.12),
+            0 10px 24px rgba(15, 23, 42, 0.06);
 }
 
 .about-card svg {
-    font-size: 40px;
+    position: relative;
+    z-index: 1;
+    margin: 0 auto 18px;
+    font-size: 42px;
     color: #10b981;
+}
+
+.about-card h3 {
+    position: relative;
+    z-index: 1;
+    margin: 0 0 12px;
+    font-size: 24px;
+    line-height: 1.25;
+    font-weight: 800;
+    color: #0f172a;
+    letter-spacing: -0.02em;
+}
+
+.about-card p {
+    position: relative;
+    z-index: 1;
+    margin: 0;
+    font-size: 16px;
+    line-height: 1.8;
+    color: #475569;
 }
 
 /* VALUES */
 .about-values {
-    padding: 80px 0;
+    padding: 54px 0 28px;
     text-align: center;
 }
 
+.about-values h2 {
+    margin: 0;
+    font-size: clamp(28px, 4vw, 42px);
+    line-height: 1.08;
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    color: #0f172a;
+}
+
 .values-grid {
-    margin-top: 30px;
+    margin-top: 28px;
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 24px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 22px;
 }
 
 .value-card {
-    background: white;
-    padding: 28px;
-    border-radius: 20px;
-    transition: 0.3s;
+    position: relative;
+    overflow: hidden;
+    padding: 30px 24px;
+    border-radius: 26px;
+    background: rgba(255, 255, 255, 0.96);
+    border: 1px solid rgba(15, 23, 42, 0.05);
+    box-shadow:
+            0 16px 40px rgba(15, 23, 42, 0.07),
+            0 2px 10px rgba(15, 23, 42, 0.03);
+    transition:
+            transform 0.32s ease,
+            box-shadow 0.32s ease,
+            border-color 0.32s ease;
+    animation: aboutFadeUp 0.75s ease both;
+}
+
+.value-card:nth-child(2) {
+    animation-delay: 0.08s;
+}
+
+.value-card:nth-child(3) {
+    animation-delay: 0.16s;
+}
+
+.value-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+            180deg,
+            rgba(16, 185, 129, 0.04) 0%,
+            rgba(255, 255, 255, 0) 40%
+    );
+    pointer-events: none;
 }
 
 .value-card:hover {
     transform: translateY(-8px);
+    box-shadow:
+            0 24px 54px rgba(16, 185, 129, 0.12),
+            0 10px 24px rgba(15, 23, 42, 0.05);
+    border-color: rgba(16, 185, 129, 0.14);
 }
 
 .value-card svg {
-    font-size: 32px;
+    position: relative;
+    z-index: 1;
+    font-size: 34px;
     color: #10b981;
+    margin-bottom: 16px;
+}
+
+.value-card h3 {
+    position: relative;
+    z-index: 1;
+    margin: 0 0 10px;
+    font-size: 22px;
+    line-height: 1.25;
+    font-weight: 800;
+    color: #0f172a;
+}
+
+.value-card p {
+    position: relative;
+    z-index: 1;
+    margin: 0;
+    font-size: 16px;
+    line-height: 1.75;
+    color: #475569;
 }
 
 /* CTA */
 .about-cta {
-    padding: 80px 0;
+    padding: 72px 0 100px;
     text-align: center;
 }
 
-.about-btn {
-    display: inline-block;
-    margin-top: 20px;
-    padding: 14px 28px;
-    background: #10b981;
-    color: white;
-    border-radius: 14px;
-    font-weight: 700;
-    text-decoration: none;
+.about-cta .container {
+    max-width: 900px;
+    padding: 44px 28px;
+    border-radius: 34px;
+    background:
+            linear-gradient(135deg, rgba(16, 185, 129, 0.08), rgba(59, 130, 246, 0.06)),
+            rgba(255, 255, 255, 0.94);
+    border: 1px solid rgba(255, 255, 255, 0.92);
+    box-shadow:
+            0 24px 60px rgba(15, 23, 42, 0.08),
+            inset 0 1px 0 rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(10px);
 }
 
-/* MOBILE */
-@media (max-width: 900px) {
+.about-cta h2 {
+    margin: 0 0 14px;
+    font-size: clamp(28px, 4vw, 42px);
+    line-height: 1.1;
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    color: #0f172a;
+}
+
+.about-cta p {
+    margin: 0 auto;
+    max-width: 620px;
+    font-size: 17px;
+    line-height: 1.8;
+    color: #64748b;
+}
+
+.about-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 56px;
+    margin-top: 24px;
+    padding: 0 30px;
+    border-radius: 18px;
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 800;
+    box-shadow: 0 18px 36px rgba(16, 185, 129, 0.24);
+    transition:
+            transform 0.3s ease,
+            box-shadow 0.3s ease,
+            filter 0.3s ease;
+}
+
+.about-btn:hover {
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 0 24px 46px rgba(16, 185, 129, 0.3);
+    filter: saturate(1.05);
+}
+
+/* ANIMATIONS */
+@keyframes aboutGlow {
+    0%,
+    100% {
+        transform: translateX(-50%) translateY(0);
+    }
+    50% {
+        transform: translateX(-50%) translateY(16px);
+    }
+}
+
+@keyframes aboutFadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(22px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* TABLET */
+@media (max-width: 1100px) {
     .about-grid {
         grid-template-columns: 1fr;
     }
 
     .values-grid {
         grid-template-columns: 1fr;
+    }
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+    .container {
+        width: min(100% - 20px, 1200px);
+    }
+
+    .about-hero {
+        padding: 110px 0 66px;
+        border-bottom-left-radius: 28px;
+        border-bottom-right-radius: 28px;
+    }
+
+    .about-hero__glow {
+        width: 220px;
+        height: 220px;
+        filter: blur(70px);
+    }
+
+    .about-hero p {
+        font-size: 16px;
+        line-height: 1.7;
+    }
+
+    .about-section {
+        padding-top: 30px;
+    }
+
+    .about-text,
+    .about-card,
+    .value-card {
+        padding: 24px 20px;
+        border-radius: 22px;
+    }
+
+    .about-text p,
+    .about-card p,
+    .value-card p {
+        font-size: 15px;
+        line-height: 1.7;
+    }
+
+    .about-card h3,
+    .value-card h3 {
+        font-size: 20px;
+    }
+
+    .about-values {
+        padding-top: 42px;
+    }
+
+    .about-cta {
+        padding: 56px 0 78px;
+    }
+
+    .about-cta .container {
+        padding: 30px 18px;
+        border-radius: 24px;
+    }
+
+    .about-cta p {
+        font-size: 15px;
+        line-height: 1.7;
+    }
+
+    .about-btn {
+        width: 100%;
+        margin-top: 20px;
     }
 }
