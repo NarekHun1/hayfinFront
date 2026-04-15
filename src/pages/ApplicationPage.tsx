@@ -130,14 +130,6 @@ export default function ApplicationPage() {
                             </div>
 
                             <div className="field">
-                                <label>Աշխատավայր</label>
-                                <input
-                                    value={form.workplace ?? ''}
-                                    onChange={(e) => setField('workplace', e.target.value)}
-                                />
-                            </div>
-
-                            <div className="field">
                                 <label>Վարկի նպատակ</label>
                                 <input
                                     value={form.loanPurpose ?? ''}
@@ -162,16 +154,7 @@ export default function ApplicationPage() {
                             </div>
 
                             <div className="field">
-                                <label>Աշխատանքային ստաժ (տարի)</label>
-                                <input
-                                    type="number"
-                                    value={form.jobYears ?? 0}
-                                    onChange={(e) => setField('jobYears', Number(e.target.value))}
-                                />
-                            </div>
-
-                            <div className="field">
-                                <label>Այլ վարկերի ամսական վճար</label>
+                                <label>Գործող վարկերի մնացորդ</label>
                                 <input
                                     type="number"
                                     value={form.activeLoanMonthlyPay ?? 0}
