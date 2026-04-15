@@ -7,10 +7,25 @@ import type {
 } from '../types/application.types';
 import '../admin/components/ApplicationPage.css';
 
+const amountOptions = [
+    100000,
+    200000,
+    300000,
+    500000,
+    700000,
+    1000000,
+    1500000,
+    2000000,
+    3000000,
+    4000000,
+];
+
+const termOptions = [12, 24, 36, 48, 60];
+
 const initialState: CreateApplicationPayload = {
     fullName: '',
     phone: '',
-    amount: 300000,
+    amount: 100000,
     termMonths: 12,
     monthlyIncome: 0,
     workplace: '',
@@ -57,9 +72,11 @@ export default function ApplicationPage() {
                 monthsSinceLastDelay: Number(form.monthsSinceLastDelay || 0),
             };
 
-            const result = await createApplication(payload);
+            await createApplication(payload);
 
-            setSuccess(`Հայտը հաջողությամբ ուղարկվել է։ ID: ${result.id}`);
+            setSuccess(
+                'Ձեր հայտը հաջողությամբ ուղարկվել է։ Մեր մասնագետը շուտով կապ կհաստատի Ձեզ հետ։',
+            );
             setForm(initialState);
         } catch (err) {
             setError(err instanceof Error ? err.message : 'Չհաջողվեց ուղարկել հայտը');
@@ -102,22 +119,32 @@ export default function ApplicationPage() {
 
                             <div className="field">
                                 <label>Գումար</label>
-                                <input
-                                    type="number"
+                                <select
                                     value={form.amount}
                                     onChange={(e) => setField('amount', Number(e.target.value))}
                                     required
-                                />
+                                >
+                                    {amountOptions.map((amount) => (
+                                        <option key={amount} value={amount}>
+                                            {amount.toLocaleString('en-US')} դրամ
+                                        </option>
+                                    ))}
+                                </select>
                             </div>
 
                             <div className="field">
                                 <label>Ժամկետ (ամիս)</label>
-                                <input
-                                    type="number"
+                                <select
                                     value={form.termMonths}
                                     onChange={(e) => setField('termMonths', Number(e.target.value))}
                                     required
-                                />
+                                >
+                                    {termOptions.map((month) => (
+                                        <option key={month} value={month}>
+                                            {month} ամիս
+                                        </option>
+                                    ))}
+                                </select>
                             </div>
 
                             <div className="field">
