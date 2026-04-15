@@ -42,7 +42,7 @@ export default function Home() {
                                 onClick={handleOpenApplication}
                                 type="button"
                             >
-                                Ստանալ առաջարկ
+                                Դիմել հիմա
                             </button>
 
                             <a
@@ -132,7 +132,7 @@ export default function Home() {
                     onClick={handleOpenApplication}
                     type="button"
                 >
-                    Ստանալ առաջարկ
+                    Դիմել հիմա
                 </button>
             </div>
         </div>
