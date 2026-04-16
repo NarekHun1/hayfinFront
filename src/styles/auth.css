@@ -236,6 +236,28 @@ body {
     margin-bottom: 32px;
 }
 
+.auth-mobile-info {
+    display: none;
+    width: 100%;
+    margin-bottom: 8px;
+}
+
+.auth-mobile-title {
+    font-size: 18px;
+    font-weight: 800;
+    color: #10361c;
+    margin-bottom: 6px;
+    letter-spacing: 0.04em;
+}
+
+.auth-mobile-text {
+    font-size: 13px;
+    line-height: 1.5;
+    color: #557261;
+    max-width: 320px;
+    margin: 0 auto;
+}
+
 .auth-mini-label {
     font-size: 13px;
     color: #547260;
@@ -527,6 +549,12 @@ body {
         gap: 14px;
         margin-bottom: 24px;
         padding-top: 10px;
+    }
+
+    .auth-mobile-info {
+        display: block;
+        text-align: center;
+        margin-bottom: 6px;
     }
 
     .auth-mini-label {
