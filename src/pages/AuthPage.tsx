@@ -119,7 +119,6 @@ export default function AuthPage() {
                 <div className="auth-card">
                     <div className="auth-card-top">
                         <div className="auth-mobile-info">
-                            <div className="auth-mobile-title">HAYFIN</div>
                             <div className="auth-mobile-text">
                                 ֆինանսավորում մինչև 4.000.000 դրամ — դիմիր օնլայն և
                                 ստացիր արագ պատասխան
