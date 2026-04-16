@@ -109,6 +109,10 @@ export default function AuthPage() {
                             <span className="auth-point-dot" />
                             077 882925
                         </div>
+                        <div className="auth-point">
+                            <span className="auth-point-dot" />
+                            094 657767
+                        </div>
                     </div>
                 </div>
 
