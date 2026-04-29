@@ -80,7 +80,7 @@ export default function AuthPage() {
                     <div className="auth-brand-badge">HAYFIN</div>
 
                     <h1 className="auth-brand-title">
-                        Վարի ֆինանսավորում մինչև 4.000.000 դրամ՝ արագ և հարմար
+                         ֆինանսավորում մինչև 4.000.000 դրամ՝ արագ և հարմար
                     </h1>
 
                     <p className="auth-brand-text">
