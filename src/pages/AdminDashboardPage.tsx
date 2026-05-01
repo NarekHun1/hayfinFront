@@ -34,6 +34,7 @@ function getStatusLabel(status: string) {
 
 export default function AdminDashboardPage() {
     const [data, setData] = useState<DashboardStats | null>(null);
+    const [allUsers, setAllUsers] = useState<DashboardUser[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
 
@@ -42,8 +43,13 @@ export default function AdminDashboardPage() {
             try {
                 setLoading(true);
                 setError('');
-                const result = await adminFetch<DashboardStats>('/admin/dashboard');
-                setData(result);
+
+                // 🔥 два запроса
+                const dashboard = await adminFetch<DashboardStats>('/admin/dashboard');
+                const users = await adminFetch<DashboardUser[]>('/admin/users');
+
+                setData(dashboard);
+                setAllUsers(users);
             } catch (err) {
                 setError(err instanceof Error ? err.message : 'Տվյալների բեռնումը ձախողվեց');
             } finally {
@@ -71,6 +77,7 @@ export default function AdminDashboardPage() {
                         <StatsCard title="Բոլոր օգտատերերը" value={data.totalUsers} />
                     </div>
 
+                    {/* заявки */}
                     <div className="admin-table-card">
                         <div className="admin-table-card__head">
                             <h2>Վերջին հայտերը</h2>
@@ -101,9 +108,9 @@ export default function AdminDashboardPage() {
                                             </td>
                                             <td>{item.amount.toLocaleString('hy-AM')} դրամ</td>
                                             <td>
-                                                    <span className={`status-badge status-badge--${item.status.toLowerCase()}`}>
-                                                        {getStatusLabel(item.status)}
-                                                    </span>
+                                                <span className={`status-badge status-badge--${item.status.toLowerCase()}`}>
+                                                    {getStatusLabel(item.status)}
+                                                </span>
                                             </td>
                                             <td>{formatDate(item.createdAt)}</td>
                                         </tr>
@@ -120,12 +127,14 @@ export default function AdminDashboardPage() {
                         </div>
                     </div>
 
+                    {/* users */}
                     <div className="admin-table-card">
                         <div className="admin-table-card__head">
                             <h2>Օգտատերեր</h2>
                         </div>
 
-                        <div className="admin-table-wrap" style={{ maxHeight: '400px', overflowY: 'auto' }}>                            <table className="admin-table">
+                        <div className="admin-table-wrap" style={{ maxHeight: '400px', overflowY: 'auto' }}>
+                            <table className="admin-table">
                                 <thead>
                                 <tr>
                                     <th>ID</th>
@@ -136,8 +145,8 @@ export default function AdminDashboardPage() {
                                 </tr>
                                 </thead>
                                 <tbody>
-                                {data.users && data.users.length > 0 ? (
-                                    data.users.map((user: DashboardUser) => (
+                                {allUsers.length > 0 ? (
+                                    allUsers.map((user) => (
                                         <tr key={user.id}>
                                             <td>{user.id}</td>
                                             <td>{user.firstName}</td>
