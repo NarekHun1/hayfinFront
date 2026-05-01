@@ -125,8 +125,7 @@ export default function AdminDashboardPage() {
                             <h2>Օգտատերեր</h2>
                         </div>
 
-                        <div className="admin-table-wrap">
-                            <table className="admin-table">
+                        <div className="admin-table-wrap" style={{ maxHeight: '400px', overflowY: 'auto' }}>                            <table className="admin-table">
                                 <thead>
                                 <tr>
                                     <th>ID</th>
