@@ -42,34 +42,63 @@ function getStatusLabel(status: string) {
 
 export default function AdminDashboardPage() {
     const [data, setData] = useState<DashboardStats | null>(null);
-    const [allUsers, setAllUsers] = useState<DashboardUser[]>([]);
+    const [users, setUsers] = useState<DashboardUser[]>([]);
+    const [page, setPage] = useState(1);
+    const [hasMore, setHasMore] = useState(true);
+
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
 
+    // загрузка dashboard
     useEffect(() => {
         const loadDashboard = async () => {
             try {
-                setLoading(true);
-                setError('');
-
                 const dashboard = await adminFetch<DashboardStats>('/admin/dashboard');
-                const usersResult = await adminFetch<UsersResponse>('/admin/users?page=1&limit=100');
-
                 setData(dashboard);
-                setAllUsers(usersResult.users || []);
             } catch (err) {
-                setError(err instanceof Error ? err.message : 'Տվյալների բեռնումը ձախողվեց');
-            } finally {
-                setLoading(false);
+                setError('Սխալ dashboard');
             }
         };
 
         loadDashboard();
     }, []);
 
+    // загрузка users (по страницам)
+    const loadUsers = async (pageNum: number) => {
+        try {
+            const res = await adminFetch<UsersResponse>(
+                `/admin/users?page=${pageNum}&limit=20`
+            );
+
+            setUsers((prev) => [...prev, ...(res.users || [])]);
+
+            if (pageNum >= res.totalPages) {
+                setHasMore(false);
+            }
+        } catch (e) {
+            console.log('users error');
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        loadUsers(page);
+    }, [page]);
+
+    // scroll handler
+    const handleScroll = (e: any) => {
+        const bottom =
+            e.target.scrollHeight - e.target.scrollTop <= e.target.clientHeight + 5;
+
+        if (bottom && hasMore) {
+            setPage((p) => p + 1);
+        }
+    };
+
     return (
         <AdminLayout>
-            {loading ? (
+            {loading && users.length === 0 ? (
                 <div className="admin-panel-message">Բեռնվում է...</div>
             ) : error ? (
                 <div className="admin-panel-error">{error}</div>
@@ -84,6 +113,7 @@ export default function AdminDashboardPage() {
                         <StatsCard title="Բոլոր օգտատերերը" value={data.totalUsers} />
                     </div>
 
+                    {/* заявки */}
                     <div className="admin-table-card">
                         <div className="admin-table-card__head">
                             <h2>Վերջին հայտերը</h2>
@@ -102,43 +132,40 @@ export default function AdminDashboardPage() {
                                 </tr>
                                 </thead>
                                 <tbody>
-                                {data.latestApplications.length > 0 ? (
-                                    data.latestApplications.map((item) => (
-                                        <tr key={item.id}>
-                                            <td>{item.id}</td>
-                                            <td>{item.fullName}</td>
-                                            <td>
-                                                <a href={`tel:${item.phone}`} className="admin-phone-link">
-                                                    {item.phone}
-                                                </a>
-                                            </td>
-                                            <td>{item.amount.toLocaleString('hy-AM')} դրամ</td>
-                                            <td>
-                                                <span className={`status-badge status-badge--${item.status.toLowerCase()}`}>
-                                                    {getStatusLabel(item.status)}
-                                                </span>
-                                            </td>
-                                            <td>{formatDate(item.createdAt)}</td>
-                                        </tr>
-                                    ))
-                                ) : (
-                                    <tr>
-                                        <td colSpan={6} className="admin-empty-cell">
-                                            Հայտեր չկան
+                                {data.latestApplications.map((item) => (
+                                    <tr key={item.id}>
+                                        <td>{item.id}</td>
+                                        <td>{item.fullName}</td>
+                                        <td>
+                                            <a href={`tel:${item.phone}`} className="admin-phone-link">
+                                                {item.phone}
+                                            </a>
                                         </td>
+                                        <td>{item.amount.toLocaleString('hy-AM')} դրամ</td>
+                                        <td>
+                                            <span className={`status-badge status-badge--${item.status.toLowerCase()}`}>
+                                                {getStatusLabel(item.status)}
+                                            </span>
+                                        </td>
+                                        <td>{formatDate(item.createdAt)}</td>
                                     </tr>
-                                )}
+                                ))}
                                 </tbody>
                             </table>
                         </div>
                     </div>
 
+                    {/* users infinite scroll */}
                     <div className="admin-table-card">
                         <div className="admin-table-card__head">
                             <h2>Օգտատերեր</h2>
                         </div>
 
-                        <div className="admin-table-wrap" style={{ maxHeight: '400px', overflowY: 'auto' }}>
+                        <div
+                            className="admin-table-wrap"
+                            style={{ maxHeight: '400px', overflowY: 'auto' }}
+                            onScroll={handleScroll}
+                        >
                             <table className="admin-table">
                                 <thead>
                                 <tr>
@@ -150,29 +177,27 @@ export default function AdminDashboardPage() {
                                 </tr>
                                 </thead>
                                 <tbody>
-                                {allUsers.length > 0 ? (
-                                    allUsers.map((user) => (
-                                        <tr key={user.id}>
-                                            <td>{user.id}</td>
-                                            <td>{user.firstName}</td>
-                                            <td>{user.lastName}</td>
-                                            <td>
-                                                <a href={`tel:${user.phone}`} className="admin-phone-link">
-                                                    {user.phone}
-                                                </a>
-                                            </td>
-                                            <td>{formatDate(user.lastLoginAt)}</td>
-                                        </tr>
-                                    ))
-                                ) : (
-                                    <tr>
-                                        <td colSpan={5} className="admin-empty-cell">
-                                            Օգտատերեր չկան
+                                {users.map((user) => (
+                                    <tr key={user.id}>
+                                        <td>{user.id}</td>
+                                        <td>{user.firstName}</td>
+                                        <td>{user.lastName}</td>
+                                        <td>
+                                            <a href={`tel:${user.phone}`} className="admin-phone-link">
+                                                {user.phone}
+                                            </a>
                                         </td>
+                                        <td>{formatDate(user.lastLoginAt)}</td>
                                     </tr>
-                                )}
+                                ))}
                                 </tbody>
                             </table>
+
+                            {hasMore && (
+                                <div style={{ padding: 10, textAlign: 'center' }}>
+                                    Loading...
+                                </div>
+                            )}
                         </div>
                     </div>
                 </div>
