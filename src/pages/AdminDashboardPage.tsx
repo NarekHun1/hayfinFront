@@ -5,6 +5,14 @@ import { adminFetch } from '../services/adminApi';
 import type { DashboardStats, DashboardUser } from '../types/admin.types';
 import '../admin/components/AdminLayout.css';
 
+type UsersResponse = {
+    users: DashboardUser[];
+    total: number;
+    page: number;
+    limit: number;
+    totalPages: number;
+};
+
 function formatDate(date?: string | null) {
     if (!date) return '—';
 
@@ -44,12 +52,11 @@ export default function AdminDashboardPage() {
                 setLoading(true);
                 setError('');
 
-                // 🔥 два запроса
                 const dashboard = await adminFetch<DashboardStats>('/admin/dashboard');
-                const users = await adminFetch<DashboardUser[]>('/admin/users');
+                const usersResult = await adminFetch<UsersResponse>('/admin/users?page=1&limit=100');
 
                 setData(dashboard);
-                setAllUsers(users);
+                setAllUsers(usersResult.users || []);
             } catch (err) {
                 setError(err instanceof Error ? err.message : 'Տվյալների բեռնումը ձախողվեց');
             } finally {
@@ -77,7 +84,6 @@ export default function AdminDashboardPage() {
                         <StatsCard title="Բոլոր օգտատերերը" value={data.totalUsers} />
                     </div>
 
-                    {/* заявки */}
                     <div className="admin-table-card">
                         <div className="admin-table-card__head">
                             <h2>Վերջին հայտերը</h2>
@@ -127,7 +133,6 @@ export default function AdminDashboardPage() {
                         </div>
                     </div>
 
-                    {/* users */}
                     <div className="admin-table-card">
                         <div className="admin-table-card__head">
                             <h2>Օգտատերեր</h2>
