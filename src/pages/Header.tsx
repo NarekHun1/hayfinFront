@@ -6,6 +6,9 @@ import hayfin from '../assets/hayfin.png';
 
 export default function Header() {
     const [menuOpen, setMenuOpen] = useState(false);
+    const [isAuthenticated, setIsAuthenticated] = useState(
+        Boolean(localStorage.getItem('token')),
+    );
 
     const handleLogout = () => {
         localStorage.removeItem('token');
@@ -15,6 +18,18 @@ export default function Header() {
     };
 
     const closeMenu = () => setMenuOpen(false);
+
+    useEffect(() => {
+        const syncAuth = () => setIsAuthenticated(Boolean(localStorage.getItem('token')));
+
+        window.addEventListener('auth-changed', syncAuth);
+        window.addEventListener('storage', syncAuth);
+
+        return () => {
+            window.removeEventListener('auth-changed', syncAuth);
+            window.removeEventListener('storage', syncAuth);
+        };
+    }, []);
 
     useEffect(() => {
         document.body.style.overflow = menuOpen ? 'hidden' : '';
@@ -76,13 +91,19 @@ export default function Header() {
                             077 882925
                         </a>
 
-                        <button
-                            type="button"
-                            className="hayfin-btn hayfin-btn--primary"
-                            onClick={handleLogout}
-                        >
-                            Դուրս գալ
-                        </button>
+                        {isAuthenticated ? (
+                            <button
+                                type="button"
+                                className="hayfin-btn hayfin-btn--primary"
+                                onClick={handleLogout}
+                            >
+                                Դուրս գալ
+                            </button>
+                        ) : (
+                            <Link className="hayfin-btn hayfin-btn--primary" to="/auth">
+                                Մուտք
+                            </Link>
+                        )}
                     </div>
 
                     {/* BURGER */}
@@ -158,13 +179,23 @@ export default function Header() {
                         077 882925
                     </a>
 
-                    <button
-                        type="button"
-                        className="hayfin-mobile-menu__logout"
-                        onClick={handleLogout}
-                    >
-                        Դուրս գալ
-                    </button>
+                    {isAuthenticated ? (
+                        <button
+                            type="button"
+                            className="hayfin-mobile-menu__logout"
+                            onClick={handleLogout}
+                        >
+                            Դուրս գալ
+                        </button>
+                    ) : (
+                        <Link
+                            className="hayfin-mobile-menu__logout"
+                            to="/auth"
+                            onClick={closeMenu}
+                        >
+                            Մուտք
+                        </Link>
+                    )}
                 </div>
             </aside>
         </>

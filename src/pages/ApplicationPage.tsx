@@ -111,6 +111,10 @@ export default function ApplicationPage() {
                             <div className="field">
                                 <label>Հեռախոս</label>
                                 <input
+                                    type="tel"
+                                    inputMode="tel"
+                                    autoComplete="tel"
+                                    placeholder="Օրինակ՝ 077 123456"
                                     value={form.phone}
                                     onChange={(e) => setField('phone', e.target.value)}
                                     required
@@ -168,7 +172,7 @@ export default function ApplicationPage() {
                                     <option value="SELF_EMPLOYED">Ինքնազբաղված</option>
                                     <option value="UNEMPLOYED">Գործազուրկ</option>
                                     <option value="STUDENT">Ուսանող</option>
-                                    <option value="PENSIONER">Թոշակառու</option>
+                                    <option value="RETIRED">Թոշակառու</option>
                                 </select>
                             </div>
 
