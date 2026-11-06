@@ -1,8 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 
-import Header from './pages/Header';
-
 import AuthPage from './pages/AuthPage';
 import Home from './pages/Home';
 
@@ -40,16 +38,15 @@ export default function App() {
 
     return (
         <>
-            {/* HEADER НА ВСЕХ СТРАНИЦАХ */}
-            {userToken && <Header />}
-
             <Routes>
                 <Route
                     path="/auth"
                     element={userToken ? <Navigate to="/" replace /> : <AuthPage />}
                 />
 
-                <Route path="/apply" element={<ApplicationPage />} />
+                <Route path="/" element={<ApplicationPage />} />
+                <Route path="/apply" element={<Navigate to="/" replace />} />
+                <Route path="/home" element={<Home />} />
 
                 {/* НОВЫЕ СТРАНИЦЫ */}
                 <Route path="/about" element={<AboutPage />} />
@@ -73,11 +70,6 @@ export default function App() {
                             <AdminApplicationDetailsPage />
                         </ProtectedAdminRoute>
                     }
-                />
-
-                <Route
-                    path="/"
-                    element={userToken ? <Home /> : <Navigate to="/auth" replace />}
                 />
 
                 <Route

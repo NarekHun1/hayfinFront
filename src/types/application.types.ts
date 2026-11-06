@@ -3,7 +3,7 @@ export type EmploymentStatus =
     | 'SELF_EMPLOYED'
     | 'UNEMPLOYED'
     | 'STUDENT'
-    | 'PENSIONER';
+    | 'RETIRED';
 
 export type ApplicationStatus =
     | 'NEW'
