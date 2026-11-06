@@ -1,438 +1,181 @@
-/* =========================================================
-   APPLICATION PAGE — PREMIUM FINTECH STYLE
-   под текущий ApplicationPage.tsx
-   ========================================================= */
-
 :root {
-    --app-bg-1: #07111f;
-    --app-bg-2: #0d1728;
-    --app-card: rgba(13, 22, 38, 0.82);
-    --app-card-border: rgba(255, 255, 255, 0.08);
-    --app-field: rgba(255, 255, 255, 0.05);
-    --app-field-hover: rgba(255, 255, 255, 0.08);
-    --app-text: #f5f7fb;
-    --app-muted: #9aa7bd;
-    --app-line: rgba(255, 255, 255, 0.08);
-    --app-green: #1fbe6b;
-    --app-green-2: #2fe08a;
-    --app-red: #ff6b6b;
-    --app-shadow: 0 24px 80px rgba(0, 0, 0, 0.45);
-    --app-radius-xl: 28px;
-    --app-radius-lg: 18px;
-    --app-radius-md: 14px;
-    --app-radius-sm: 12px;
+    --application-green: #16d77b;
+    --application-bg: #031625;
+    --application-field: rgba(255, 255, 255, 0.055);
+    --application-text: #f5f8f8;
 }
 
-/* page */
 .application-page {
     min-height: 100vh;
-    background:
-            radial-gradient(circle at top left, rgba(47, 224, 138, 0.12), transparent 28%),
-            radial-gradient(circle at top right, rgba(59, 130, 246, 0.12), transparent 28%),
-            linear-gradient(180deg, var(--app-bg-1) 0%, var(--app-bg-2) 100%);
-    color: var(--app-text);
+    color: var(--application-text);
+    background: radial-gradient(circle at 13% 22%, rgba(2, 150, 104, 0.35), transparent 28%), radial-gradient(circle at 88% 8%, rgba(16, 129, 92, 0.18), transparent 24%), linear-gradient(135deg, #021927 0%, #061725 46%, #032331 100%);
+    overflow-x: hidden;
 }
 
-/* main */
 .application-main {
-    width: min(1180px, calc(100% - 32px));
-    margin: 0 auto;
-    padding: 36px 0 90px;
-}
-
-/* card */
-.application-card {
     position: relative;
-    overflow: hidden;
-    background: var(--app-card);
-    border: 1px solid var(--app-card-border);
-    border-radius: var(--app-radius-xl);
-    padding: 34px;
-    box-shadow: var(--app-shadow);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-}
-
-.application-card::before,
-.application-card::after {
-    content: "";
-    position: absolute;
-    inset: auto;
-    border-radius: 999px;
-    pointer-events: none;
-    filter: blur(40px);
-    opacity: 0.8;
-}
-
-.application-card::before {
-    top: -60px;
-    right: -40px;
-    width: 220px;
-    height: 220px;
-    background: rgba(47, 224, 138, 0.13);
-}
-
-.application-card::after {
-    bottom: -80px;
-    left: -50px;
-    width: 260px;
-    height: 260px;
-    background: rgba(59, 130, 246, 0.12);
-}
-
-/* head */
-.application-head {
-    position: relative;
-    z-index: 1;
-    margin-bottom: 26px;
-}
-
-.application-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    min-height: 34px;
-    padding: 0 14px;
-    border-radius: 999px;
-    background: rgba(47, 224, 138, 0.1);
-    border: 1px solid rgba(47, 224, 138, 0.16);
-    color: #b8f7d5;
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    margin-bottom: 14px;
-}
-
-.application-head h1 {
-    margin: 0 0 10px;
-    font-size: clamp(28px, 4vw, 42px);
-    line-height: 1.05;
-    font-weight: 800;
-    letter-spacing: -0.03em;
-    color: #ffffff;
-}
-
-.application-head p {
-    margin: 0;
-    max-width: 720px;
-    color: var(--app-muted);
-    font-size: 15px;
-    line-height: 1.7;
-}
-
-/* form */
-.application-form {
-    position: relative;
-    z-index: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 22px;
-}
-
-/* grid */
-.application-grid {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 18px;
-}
-
-/* field */
-.field {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-
-.field label {
-    color: #d6deec;
-    font-size: 13px;
-    font-weight: 600;
-    letter-spacing: 0.01em;
-}
-
-.field input,
-.field select,
-.field textarea {
     width: 100%;
-    border: 1px solid transparent;
-    outline: none;
-    border-radius: var(--app-radius-md);
-    background: var(--app-field);
-    color: var(--app-text);
-    padding: 15px 16px;
-    font-size: 15px;
-    line-height: 1.4;
-    transition:
-            border-color 0.2s ease,
-            background 0.2s ease,
-            box-shadow 0.2s ease,
-            transform 0.2s ease;
-    box-sizing: border-box;
-}
-
-.field input::placeholder,
-.field textarea::placeholder {
-    color: #7f8ca3;
-}
-
-.field input:hover,
-.field select:hover,
-.field textarea:hover {
-    background: var(--app-field-hover);
-}
-
-.field input:focus,
-.field select:focus,
-.field textarea:focus {
-    border-color: rgba(47, 224, 138, 0.65);
-    background: rgba(255, 255, 255, 0.075);
-    box-shadow: 0 0 0 4px rgba(47, 224, 138, 0.12);
-    transform: translateY(-1px);
-}
-
-.field textarea {
-    min-height: 130px;
-    resize: vertical;
-}
-
-/* select arrow consistency */
-.field select {
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    background-image:
-            linear-gradient(45deg, transparent 50%, #aab6ca 50%),
-            linear-gradient(135deg, #aab6ca 50%, transparent 50%);
-    background-position:
-            calc(100% - 18px) calc(50% - 3px),
-            calc(100% - 12px) calc(50% - 3px);
-    background-size: 6px 6px, 6px 6px;
-    background-repeat: no-repeat;
-    padding-right: 40px;
-}
-
-/* number inputs */
-.field input[type="number"]::-webkit-outer-spin-button,
-.field input[type="number"]::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-}
-
-.field input[type="number"] {
-    -moz-appearance: textfield;
-}
-
-/* checkbox grid */
-.checkbox-grid {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 14px;
-}
-
-.check-item {
+    min-height: 100vh;
+    padding: 145px 6vw 52px;
     display: flex;
     align-items: flex-start;
-    gap: 12px;
-    padding: 16px 16px;
-    border-radius: var(--app-radius-md);
-    border: 1px solid var(--app-line);
-    background: rgba(255, 255, 255, 0.035);
-    transition:
-            border-color 0.2s ease,
-            background 0.2s ease,
-            transform 0.2s ease,
-            box-shadow 0.2s ease;
-    cursor: pointer;
 }
 
-.check-item:hover {
-    background: rgba(255, 255, 255, 0.06);
-    border-color: rgba(47, 224, 138, 0.22);
-    transform: translateY(-1px);
+.application-main::before,
+.application-main::after { content: ""; position: absolute; pointer-events: none; z-index: 0; }
+.application-main::before {
+    left: -10vw; bottom: -27vw; width: 48vw; height: 48vw;
+    border-radius: 46% 54% 61% 39%;
+    background: linear-gradient(150deg, rgba(13, 238, 157, 0.92), rgba(0, 89, 77, 0.14) 48%, transparent 67%);
+    transform: rotate(18deg); filter: drop-shadow(0 0 25px rgba(15, 231, 157, 0.34));
+}
+.application-main::after {
+    right: -13vw; bottom: -31vw; width: 53vw; height: 53vw;
+    border-radius: 56% 44% 43% 57%; border: 48px solid rgba(11, 222, 151, 0.82);
+    box-shadow: 0 0 42px rgba(11, 222, 151, 0.32); transform: rotate(-24deg);
 }
 
-.check-item input {
-    margin: 2px 0 0;
-    width: 18px;
-    height: 18px;
-    accent-color: var(--app-green);
-    flex-shrink: 0;
+.application-card {
+    position: relative; z-index: 1; width: min(1328px, 100%); min-height: 690px; margin: 0 auto;
+    display: grid; grid-template-columns: 41% 59%; overflow: hidden;
+    border: 1px solid rgba(57, 197, 153, 0.18); border-radius: 38px;
+    background: linear-gradient(105deg, rgba(1, 52, 48, 0.32), transparent 38%), rgba(5, 24, 39, 0.91);
+    box-shadow: 0 32px 80px rgba(0, 4, 12, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.035);
+    backdrop-filter: blur(19px); -webkit-backdrop-filter: blur(19px);
 }
+.application-card__glow { position: absolute; pointer-events: none; border-radius: 50%; filter: blur(70px); }
+.application-card__glow--left { width: 360px; height: 360px; left: -130px; bottom: -160px; background: rgba(0, 240, 146, 0.3); }
+.application-card__glow--right { width: 300px; height: 300px; right: -150px; top: -130px; background: rgba(19, 206, 129, 0.14); }
 
-.check-item span {
-    color: #eaf0fb;
-    font-size: 14px;
-    line-height: 1.45;
+.application-intro { position: relative; z-index: 2; min-width: 0; padding: 36px 42px 30px 46px; display: flex; flex-direction: column; }
+.application-intro__copy { position: relative; z-index: 2; }
+.application-badge {
+    display: inline-flex; align-items: center; min-height: 36px; padding: 0 18px; margin-bottom: 25px;
+    border: 1px solid rgba(19, 228, 132, 0.54); border-radius: 999px; color: #67eda8;
+    background: rgba(8, 162, 96, 0.08); font-size: 13px; font-weight: 800; letter-spacing: 0.14em;
 }
-
-/* success/error */
-.form-success,
-.form-error {
-    border-radius: var(--app-radius-md);
-    padding: 15px 16px;
-    font-size: 14px;
-    line-height: 1.5;
-    font-weight: 600;
-    border: 1px solid transparent;
+.application-intro h1 {
+    margin: 0; color: #f7faf9; font-family: "Noto Sans Armenian", Inter, ui-sans-serif, system-ui, sans-serif;
+    font-size: clamp(42px, 4.2vw, 62px); font-weight: 900; line-height: 0.98; letter-spacing: -0.05em;
+    text-shadow: 0 6px 22px rgba(0, 0, 0, 0.24);
 }
+.application-intro p { max-width: 400px; margin: 25px 0 0; color: #a9bbc6; font-size: 16px; font-weight: 500; line-height: 1.8; }
+.application-illustration { position: absolute; z-index: 1; width: min(94%, 460px); height: auto; left: 28px; bottom: 94px; overflow: visible; }
 
-.form-success {
-    color: #b9f8d6;
-    background: rgba(31, 190, 107, 0.14);
-    border-color: rgba(31, 190, 107, 0.24);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+.application-benefits { position: relative; z-index: 3; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); margin-top: auto; }
+.application-benefit { min-width: 0; padding: 0 13px; text-align: center; color: #b6c9d1; font-size: 12px; font-weight: 600; line-height: 1.35; }
+.application-benefit + .application-benefit { border-left: 1px solid rgba(181, 221, 208, 0.13); }
+.application-benefit svg { display: block; width: 27px; height: 27px; margin: 0 auto 8px; color: #55e99b; filter: drop-shadow(0 0 8px rgba(46, 229, 137, 0.22)); }
+
+.application-form {
+    position: relative; z-index: 2; min-width: 0; margin: 36px 36px 36px 0; padding: 0 0 0 42px;
+    border-left: 1px solid rgba(178, 221, 209, 0.12); display: flex; flex-direction: column; gap: 18px;
 }
-
-.form-error {
-    color: #ffd2d2;
-    background: rgba(255, 107, 107, 0.12);
-    border-color: rgba(255, 107, 107, 0.22);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+.application-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 27px; }
+.application-page .field { min-width: 0; display: flex; flex-direction: column; gap: 8px; }
+.application-page .field--wide { grid-column: 1 / -1; }
+.application-page .field label { color: #d9e2e6; font-size: 13px; font-weight: 750; line-height: 1.2; }
+.application-page .field label em { color: #ff5c62; font-style: normal; }
+.field-control { position: relative; min-width: 0; }
+.field-control > svg { position: absolute; z-index: 1; left: 17px; top: 50%; width: 20px; height: 20px; color: #b6d9cc; transform: translateY(-50%); pointer-events: none; }
+.application-page .field input,
+.application-page .field select {
+    width: 100%; height: 50px; margin: 0; padding: 0 44px 0 55px;
+    border: 1px solid rgba(174, 215, 203, 0.055); border-radius: 15px; outline: none;
+    color: #eef5f3; background-color: var(--application-field); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.018);
+    font-size: 14px; font-weight: 500; transition: border-color .2s ease, background .2s ease, box-shadow .2s ease;
 }
+.application-page .field input::placeholder { color: #9eacb9; opacity: 1; }
+.application-page .field input:hover,
+.application-page .field select:hover { background-color: rgba(255, 255, 255, 0.072); }
+.application-page .field input:focus,
+.application-page .field select:focus { border-color: rgba(39, 225, 137, 0.56); background-color: rgba(255, 255, 255, 0.075); box-shadow: 0 0 0 3px rgba(31, 214, 125, 0.1); }
+.application-page .field select {
+    appearance: none; -webkit-appearance: none;
+    background-image: linear-gradient(45deg, transparent 50%, #a9bac3 50%), linear-gradient(135deg, #a9bac3 50%, transparent 50%);
+    background-position: calc(100% - 19px) calc(50% - 2px), calc(100% - 14px) calc(50% - 2px);
+    background-size: 5px 5px, 5px 5px; background-repeat: no-repeat;
+}
+.application-page .field select option { color: #eff7f4; background: #0b2232; }
+.application-page input[type="number"]::-webkit-inner-spin-button,
+.application-page input[type="number"]::-webkit-outer-spin-button { margin: 0; -webkit-appearance: none; }
+.application-page input[type="number"] { -moz-appearance: textfield; }
 
-/* submit */
+.checkbox-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px 27px; }
+.check-item {
+    position: relative; min-width: 0; min-height: 48px; padding: 0 16px; display: flex; align-items: center; gap: 11px;
+    border: 1px solid rgba(174, 215, 203, 0.065); border-radius: 14px; color: #e4ebed;
+    background: rgba(255, 255, 255, 0.048); cursor: pointer; font-size: 13px; font-weight: 500;
+    transition: border-color .2s ease, background .2s ease, transform .2s ease;
+}
+.check-item:hover { border-color: rgba(44, 220, 136, 0.25); background: rgba(255, 255, 255, 0.067); transform: translateY(-1px); }
+.check-item input { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+.check-box {
+    width: 19px; height: 19px; flex: 0 0 19px; display: grid; place-items: center;
+    border: 1px solid rgba(181, 205, 200, 0.65); border-radius: 6px; color: transparent; background: #f6f8f7;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2); transition: color .2s ease, background .2s ease, border-color .2s ease;
+}
+.check-box svg { width: 13px; height: 13px; stroke-width: 3; }
+.check-item input:checked + .check-box { color: #04241a; border-color: #26de83; background: #37e68d; }
+.check-item input:focus-visible + .check-box { outline: 3px solid rgba(38, 222, 131, 0.23); outline-offset: 2px; }
+.delayed-field { animation: reveal-field .2s ease-out; }
+@keyframes reveal-field { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: translateY(0); } }
+
+.form-success, .form-error { padding: 12px 15px; border: 1px solid transparent; border-radius: 13px; font-size: 13px; font-weight: 600; line-height: 1.45; }
+.form-success { color: #bcf8d6; border-color: rgba(45, 222, 132, 0.22); background: rgba(32, 190, 107, 0.12); }
+.form-error { color: #ffd0d1; border-color: rgba(255, 93, 99, 0.22); background: rgba(255, 93, 99, 0.1); }
 .application-submit {
-    position: relative;
-    width: 100%;
-    min-height: 56px;
-    border: none;
-    outline: none;
-    border-radius: 16px;
-    padding: 16px 22px;
-    background: linear-gradient(135deg, var(--app-green) 0%, var(--app-green-2) 100%);
-    color: #04140c;
-    font-size: 15px;
-    font-weight: 800;
-    letter-spacing: 0.01em;
-    cursor: pointer;
-    transition:
-            transform 0.2s ease,
-            box-shadow 0.2s ease,
-            opacity 0.2s ease,
-            filter 0.2s ease;
-    box-shadow:
-            0 18px 40px rgba(31, 190, 107, 0.22),
-            inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    width: 100%; min-height: 56px; margin-top: auto; padding: 0 24px; border: 0; border-radius: 999px;
+    display: inline-flex; align-items: center; justify-content: center; gap: 11px; color: #f9fffc;
+    background: linear-gradient(180deg, #19df7d 0%, #0eb967 100%);
+    box-shadow: 0 14px 28px rgba(13, 209, 112, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+    font-size: 16px; font-weight: 850; cursor: pointer; transition: transform .2s ease, box-shadow .2s ease, filter .2s ease;
+}
+.application-submit svg { width: 20px; height: 20px; }
+.application-submit:hover:not(:disabled) { transform: translateY(-2px); filter: brightness(1.05); box-shadow: 0 18px 36px rgba(13, 209, 112, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.4); }
+.application-submit:active:not(:disabled) { transform: translateY(0); }
+.application-submit:disabled { opacity: .65; cursor: wait; }
+
+@media (max-width: 1120px) {
+    .application-main { padding-right: 24px; padding-left: 24px; }
+    .application-card { grid-template-columns: 36% 64%; }
+    .application-intro { padding-right: 24px; padding-left: 28px; }
+    .application-intro h1 { font-size: 45px; }
+    .application-illustration { left: 4px; width: 102%; }
+    .application-form { margin-right: 28px; padding-left: 28px; }
 }
 
-.application-submit:hover {
-    transform: translateY(-2px);
-    box-shadow:
-            0 24px 50px rgba(31, 190, 107, 0.28),
-            inset 0 1px 0 rgba(255, 255, 255, 0.3);
-    filter: brightness(1.03);
+@media (max-width: 880px) {
+    .application-main { padding-top: 112px; align-items: flex-start; }
+    .application-card { grid-template-columns: 1fr; border-radius: 28px; }
+    .application-intro { min-height: 520px; padding: 34px 34px 25px; border-bottom: 1px solid rgba(178, 221, 209, 0.12); }
+    .application-intro__copy { max-width: 440px; }
+    .application-intro h1 { font-size: 52px; }
+    .application-illustration { width: min(68%, 440px); left: auto; right: 24px; bottom: 72px; }
+    .application-benefits { width: min(390px, 100%); }
+    .application-form { margin: 32px; padding: 0; border-left: 0; }
 }
 
-.application-submit:active {
-    transform: translateY(0);
-}
-
-.application-submit:disabled {
-    opacity: 0.7;
-    cursor: not-allowed;
-    transform: none;
-    filter: grayscale(0.08);
-}
-
-/* a little spacing for full-width comment field */
-.application-form > .field:last-of-type {
-    margin-top: -2px;
-}
-
-/* tablet */
-@media (max-width: 960px) {
-    .application-main {
-        width: min(100% - 24px, 1000px);
-        padding: 24px 0 84px;
-    }
-
-    .application-card {
-        padding: 24px;
-        border-radius: 24px;
-    }
-
-    .application-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .checkbox-grid {
-        grid-template-columns: 1fr;
-    }
-}
-
-/* mobile */
 @media (max-width: 640px) {
-    .application-main {
-        width: calc(100% - 16px);
-        padding: 16px 0 92px;
-    }
+    .application-main { padding: 96px 12px 28px; }
+    .application-main::before, .application-main::after { opacity: .55; }
+    .application-card { border-radius: 23px; }
+    .application-intro { min-height: 360px; padding: 20px 16px 15px; }
+    .application-badge { min-height: 29px; margin-bottom: 12px; padding: 0 13px; font-size: 10px; }
+    .application-intro h1 { font-size: 34px; line-height: .96; }
+    .application-intro p { max-width: 56%; margin-top: 12px; font-size: 12px; line-height: 1.55; }
+    .application-illustration { width: min(62%, 245px); right: -2px; bottom: 53px; }
+    .application-benefit { padding: 0 5px; font-size: 10px; }
+    .application-benefit svg { width: 21px; height: 21px; margin-bottom: 5px; }
+    .application-form { margin: 24px 18px 20px; gap: 15px; }
+    .application-grid, .checkbox-grid { grid-template-columns: 1fr; gap: 13px; }
+    .application-page .field--wide { grid-column: auto; }
+    .application-page .field input, .application-page .field select { height: 49px; }
+    .application-submit { min-height: 53px; margin-top: 4px; }
+}
 
-    .application-card {
-        padding: 18px;
-        border-radius: 20px;
-    }
-
-    .application-badge {
-        min-height: 30px;
-        padding: 0 12px;
-        font-size: 11px;
-        letter-spacing: 0.12em;
-        margin-bottom: 12px;
-    }
-
-    .application-head {
-        margin-bottom: 20px;
-    }
-
-    .application-head h1 {
-        font-size: 28px;
-    }
-
-    .application-head p {
-        font-size: 14px;
-        line-height: 1.6;
-    }
-
-    .application-form {
-        gap: 18px;
-    }
-
-    .application-grid,
-    .checkbox-grid {
-        gap: 12px;
-    }
-
-    .field label {
-        font-size: 12px;
-    }
-
-    .field input,
-    .field select,
-    .field textarea {
-        min-height: 50px;
-        padding: 14px;
-        font-size: 14px;
-        border-radius: 12px;
-    }
-
-    .field textarea {
-        min-height: 110px;
-    }
-
-    .check-item {
-        padding: 14px;
-        gap: 10px;
-        border-radius: 12px;
-    }
-
-    .check-item span {
-        font-size: 13px;
-    }
-
-    .application-submit {
-        min-height: 54px;
-        border-radius: 14px;
-        font-size: 14px;
-    }
+@media (max-width: 390px) {
+    .application-intro { min-height: 345px; }
+    .application-intro h1 { font-size: 32px; }
+    .application-illustration { width: 60%; bottom: 52px; }
 }
