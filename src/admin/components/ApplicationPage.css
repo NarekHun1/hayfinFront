@@ -48,7 +48,7 @@
 .application-card__glow--right { width: 300px; height: 300px; right: -150px; top: -130px; background: rgba(19, 206, 129, 0.14); }
 
 .application-intro { position: relative; z-index: 2; min-width: 0; padding: 36px 42px 30px 46px; display: flex; flex-direction: column; }
-.application-intro__copy { position: relative; z-index: 2; }
+.application-intro__copy { position: relative; z-index: 2; overflow: visible; }
 .application-badge {
     display: inline-flex; align-items: center; min-height: 36px; padding: 0 18px; margin-bottom: 25px;
     border: 1px solid rgba(19, 228, 132, 0.54); border-radius: 999px; color: #67eda8;
@@ -150,7 +150,7 @@
     .application-card { grid-template-columns: 1fr; border-radius: 28px; }
     .application-intro { min-height: 520px; padding: 34px 34px 25px; border-bottom: 1px solid rgba(178, 221, 209, 0.12); }
     .application-intro__copy { max-width: 440px; }
-    .application-intro h1 { font-size: 52px; }
+    .application-intro h1 { padding-top: 7px; font-size: 52px; line-height: 1.1; overflow: visible; }
     .application-illustration { width: min(68%, 440px); left: auto; right: 24px; bottom: 72px; }
     .application-benefits { width: min(390px, 100%); }
     .application-form { margin: 32px; padding: 0; border-left: 0; }
@@ -160,9 +160,9 @@
     .application-main { padding: 96px 12px 28px; }
     .application-main::before, .application-main::after { opacity: .55; }
     .application-card { border-radius: 23px; }
-    .application-intro { min-height: 360px; padding: 20px 16px 15px; }
+    .application-intro { min-height: 366px; padding: 24px 16px 15px; }
     .application-badge { min-height: 29px; margin-bottom: 12px; padding: 0 13px; font-size: 10px; }
-    .application-intro h1 { font-size: 34px; line-height: .96; }
+    .application-intro h1 { padding-top: 5px; font-size: 34px; line-height: 1.12; overflow: visible; }
     .application-intro p { max-width: 56%; margin-top: 12px; font-size: 12px; line-height: 1.55; }
     .application-illustration { width: min(62%, 245px); right: -2px; bottom: 53px; }
     .application-benefit { padding: 0 5px; font-size: 10px; }
